@@ -1,0 +1,16 @@
+{
+  "example-project": {
+    "details": [
+      "Built with modern React and TypeScript",
+      "Implements responsive design patterns",
+      "Uses advanced state management techniques"
+    ]
+  },
+  "portfolio-website": {
+    "details": [
+      "Static site with GitHub Pages deployment",
+      "Integrates with GitHub GraphQL API",
+      "Features smooth animations and dark mode"
+    ]
+  }
+} 
