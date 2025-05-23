@@ -133,11 +133,36 @@ async function fetchGitHubData() {
       throw new Error('Invalid response structure from GitHub API');
     }
 
-    const repositories = data.data.user.repositories.nodes;
+    let repositories = data.data.user.repositories.nodes;
     console.log(`✅ Successfully fetched ${repositories.length} repositories`);
 
-    // Ensure public directory exists
+    // Load and apply ignored repos filter
     const publicDir = path.join(process.cwd(), 'public');
+    const ignoredReposPath = path.join(publicDir, 'ignored_repos.json');
+    
+    if (fs.existsSync(ignoredReposPath)) {
+      try {
+        const ignoredReposContent = fs.readFileSync(ignoredReposPath, 'utf8');
+        const ignoredRepos = JSON.parse(ignoredReposContent);
+        
+        if (Array.isArray(ignoredRepos) && ignoredRepos.length > 0) {
+          const beforeCount = repositories.length;
+          repositories = repositories.filter(repo => !ignoredRepos.includes(repo.name));
+          const afterCount = repositories.length;
+          const filteredCount = beforeCount - afterCount;
+          
+          if (filteredCount > 0) {
+            console.log(`🚫 Filtered out ${filteredCount} ignored repositories: ${ignoredRepos.filter(name => repositories.some(r => r.name === name) === false).join(', ')}`);
+          }
+        }
+      } catch (err) {
+        console.warn('⚠️  Failed to parse ignored_repos.json:', err.message);
+      }
+    } else {
+      console.log('📝 No ignored_repos.json found, including all repositories');
+    }
+
+    // Ensure public directory exists
     if (!fs.existsSync(publicDir)) {
       fs.mkdirSync(publicDir, { recursive: true });
     }

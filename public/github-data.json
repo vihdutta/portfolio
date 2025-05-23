@@ -12,7 +12,7 @@
       "repositoryTopics": {
         "nodes": []
       },
-      "updatedAt": "2025-05-23T03:31:09Z"
+      "updatedAt": "2025-05-23T03:35:46Z"
     },
     {
       "name": "foodwars",
@@ -41,20 +41,6 @@
         "nodes": []
       },
       "updatedAt": "2025-04-17T18:23:45Z"
-    },
-    {
-      "name": "vihdutta-stats",
-      "description": null,
-      "url": "https://github.com/vihdutta/vihdutta-stats",
-      "stargazerCount": 0,
-      "primaryLanguage": {
-        "name": "Python",
-        "color": "#3572A5"
-      },
-      "repositoryTopics": {
-        "nodes": []
-      },
-      "updatedAt": "2025-03-01T12:32:28Z"
     },
     {
       "name": "autosort",
@@ -161,20 +147,6 @@
       "updatedAt": "2024-03-06T06:05:16Z"
     },
     {
-      "name": "Scholance",
-      "description": null,
-      "url": "https://github.com/TheOtherPC/Scholance",
-      "stargazerCount": 2,
-      "primaryLanguage": {
-        "name": "Python",
-        "color": "#3572A5"
-      },
-      "repositoryTopics": {
-        "nodes": []
-      },
-      "updatedAt": "2022-11-01T20:01:46Z"
-    },
-    {
       "name": "QuickUp",
       "description": null,
       "url": "https://github.com/vihdutta/QuickUp",
@@ -187,19 +159,8 @@
         "nodes": []
       },
       "updatedAt": "2022-01-30T15:27:17Z"
-    },
-    {
-      "name": "vihdutta",
-      "description": null,
-      "url": "https://github.com/vihdutta/vihdutta",
-      "stargazerCount": 0,
-      "primaryLanguage": null,
-      "repositoryTopics": {
-        "nodes": []
-      },
-      "updatedAt": "2021-05-09T14:53:21Z"
     }
   ],
-  "lastUpdated": "2025-05-23T03:34:36.082Z",
+  "lastUpdated": "2025-05-23T03:42:18.840Z",
   "source": "github-api"
 }
