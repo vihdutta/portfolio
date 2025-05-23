@@ -11,7 +11,8 @@ export const LoadingSpinner = () => {
         {[0, 1, 2].map((index) => (
           <motion.div
             key={index}
-            className="w-3 h-3 bg-red-600 rounded-full"
+            className="w-3 h-3 rounded-full"
+            style={{ backgroundColor: '#29353c' }}
             variants={{
               initial: { scale: 0.8, opacity: 0.5 },
               animate: { scale: 1.2, opacity: 1 },

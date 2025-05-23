@@ -33,7 +33,16 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xl font-semibold text-gray-900 hover:text-red-600 transition-colors duration-200"
+            className="text-xl font-semibold text-gray-900 transition-colors duration-200"
+            style={{
+              '--hover-color': '#29353c'
+            } as React.CSSProperties}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = '#29353c';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = '';
+            }}
           >
             {name}
           </a>
@@ -73,7 +82,7 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
           <ul className="text-sm text-gray-600 mb-4 space-y-1">
             {metadata.details.map((detail, i) => (
               <li key={i} className="flex items-start">
-                <span className="text-red-600 mr-2">•</span>
+                <span className="mr-2" style={{ color: '#29353c' }}>•</span>
                 {detail}
               </li>
             ))}

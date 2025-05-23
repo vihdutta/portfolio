@@ -18,19 +18,40 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200;
+    background-color: #29353c;
+    color: white;
+    @apply px-6 py-3 rounded-lg font-medium transition-colors duration-200;
+  }
+  
+  .btn-primary:hover {
+    background-color: #1e262b;
   }
   
   .btn-secondary {
-    @apply border border-red-600 text-red-600 hover:bg-red-600 hover:text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200;
+    border: 1px solid #29353c;
+    color: #29353c;
+    @apply px-6 py-3 rounded-lg font-medium transition-colors duration-200;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #29353c;
+    color: white;
   }
   
   .card {
-    @apply bg-white/90 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 hover:border-red-600;
+    @apply bg-white/90 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100;
+  }
+  
+  .card:hover {
+    border-color: #29353c;
   }
   
   .nav-link {
-    @apply text-gray-600 hover:text-red-600 transition-colors duration-200;
+    @apply text-gray-600 transition-colors duration-200;
+  }
+  
+  .nav-link:hover {
+    color: #29353c;
   }
 }
 
