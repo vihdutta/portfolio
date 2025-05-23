@@ -6,7 +6,9 @@
   "homepage": "https://vihdutta.github.io",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "fetch-github-data": "node scripts/fetch-github-data.cjs",
+    "build": "npm run fetch-github-data && tsc -b && vite build",
+    "build:no-fetch": "tsc -b && vite build",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "preview": "vite preview",
@@ -35,6 +37,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.1.0",
+    "isomorphic-fetch": "^3.0.0",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.32.1",
     "vite": "^6.3.5"

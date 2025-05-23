@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
-import { useGitHubRepos } from '../hooks/useGitHubRepos';
+import { useStaticGitHubRepos } from '../hooks/useStaticGitHubRepos';
 import { ProjectCard, LoadingSpinner, Footer } from '../components';
 
 export const Home = () => {
-  const { repos, loading, error } = useGitHubRepos();
+  const { repos, loading, error } = useStaticGitHubRepos();
 
   if (loading) {
     return (
