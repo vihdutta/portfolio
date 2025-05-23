@@ -30,7 +30,9 @@ const AnimatedRoutes = () => {
 };
 
 function App() {
-  const basename = import.meta.env.DEV ? '' : '/vihdutta.com';
+  // Match the same logic as vite.config.ts
+  const isCustomDomain = import.meta.env.VITE_CUSTOM_DOMAIN === 'true';
+  const basename = import.meta.env.DEV ? '' : (isCustomDomain ? '/' : '/portfolio');
   
   return (
     <Router basename={basename}>

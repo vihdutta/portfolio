@@ -16,9 +16,14 @@ export default defineConfig(({ command }) => {
   }
   
   console.log(`🏗️  Building with base path: ${base}`)
+  console.log(`🌐 Custom domain: ${isCustomDomain}`)
   
   return {
     plugins: [react()],
     base,
+    define: {
+      // Expose CUSTOM_DOMAIN to the client-side as VITE_CUSTOM_DOMAIN
+      'import.meta.env.VITE_CUSTOM_DOMAIN': JSON.stringify(process.env.CUSTOM_DOMAIN || 'false'),
+    },
   }
 })
