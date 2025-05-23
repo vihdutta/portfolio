@@ -6,6 +6,7 @@
   "homepage": "https://vihdutta.github.io",
   "scripts": {
     "dev": "vite",
+    "dev:preview": "npm run build && npm run preview",
     "fetch-github-data": "node scripts/fetch-github-data.cjs",
     "build": "npm run fetch-github-data && tsc -b && vite build",
     "build:no-fetch": "tsc -b && vite build",

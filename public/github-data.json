@@ -1,6 +1,205 @@
 {
-  "repositories": [],
-  "lastUpdated": "2025-05-23T03:29:47.201Z",
-  "source": "fallback",
-  "error": "No GitHub token provided"
+  "repositories": [
+    {
+      "name": "portfolio",
+      "description": null,
+      "url": "https://github.com/vihdutta/portfolio",
+      "stargazerCount": 0,
+      "primaryLanguage": {
+        "name": "TypeScript",
+        "color": "#3178c6"
+      },
+      "repositoryTopics": {
+        "nodes": []
+      },
+      "updatedAt": "2025-05-23T03:31:09Z"
+    },
+    {
+      "name": "foodwars",
+      "description": "The official repository of foodwars!",
+      "url": "https://github.com/vihdutta/foodwars",
+      "stargazerCount": 0,
+      "primaryLanguage": {
+        "name": "TypeScript",
+        "color": "#3178c6"
+      },
+      "repositoryTopics": {
+        "nodes": []
+      },
+      "updatedAt": "2025-05-22T19:03:52Z"
+    },
+    {
+      "name": "gencard",
+      "description": "The best way to get context citation cards.",
+      "url": "https://github.com/vihdutta/gencard",
+      "stargazerCount": 1,
+      "primaryLanguage": {
+        "name": "Python",
+        "color": "#3572A5"
+      },
+      "repositoryTopics": {
+        "nodes": []
+      },
+      "updatedAt": "2025-04-17T18:23:45Z"
+    },
+    {
+      "name": "vihdutta-stats",
+      "description": null,
+      "url": "https://github.com/vihdutta/vihdutta-stats",
+      "stargazerCount": 0,
+      "primaryLanguage": {
+        "name": "Python",
+        "color": "#3572A5"
+      },
+      "repositoryTopics": {
+        "nodes": []
+      },
+      "updatedAt": "2025-03-01T12:32:28Z"
+    },
+    {
+      "name": "autosort",
+      "description": "A lightweight file-copying interface.",
+      "url": "https://github.com/vihdutta/autosort",
+      "stargazerCount": 33,
+      "primaryLanguage": {
+        "name": "Python",
+        "color": "#3572A5"
+      },
+      "repositoryTopics": {
+        "nodes": [
+          {
+            "topic": {
+              "name": "qt"
+            }
+          },
+          {
+            "topic": {
+              "name": "gui"
+            }
+          },
+          {
+            "topic": {
+              "name": "free-software"
+            }
+          },
+          {
+            "topic": {
+              "name": "file-copy"
+            }
+          },
+          {
+            "topic": {
+              "name": "autosort"
+            }
+          }
+        ]
+      },
+      "updatedAt": "2025-01-27T11:08:06Z"
+    },
+    {
+      "name": "Battleship3D",
+      "description": "Classic terminal Battleship with a 3D twist!",
+      "url": "https://github.com/vihdutta/Battleship3D",
+      "stargazerCount": 6,
+      "primaryLanguage": {
+        "name": "Java",
+        "color": "#b07219"
+      },
+      "repositoryTopics": {
+        "nodes": [
+          {
+            "topic": {
+              "name": "3d"
+            }
+          },
+          {
+            "topic": {
+              "name": "battleship"
+            }
+          },
+          {
+            "topic": {
+              "name": "battleship-game"
+            }
+          },
+          {
+            "topic": {
+              "name": "game"
+            }
+          },
+          {
+            "topic": {
+              "name": "game-development"
+            }
+          },
+          {
+            "topic": {
+              "name": "gamedev"
+            }
+          },
+          {
+            "topic": {
+              "name": "terminal"
+            }
+          }
+        ]
+      },
+      "updatedAt": "2024-03-10T04:27:21Z"
+    },
+    {
+      "name": "PowerTool",
+      "description": "A simple PowerSchool tool with Python.",
+      "url": "https://github.com/vihdutta/PowerTool",
+      "stargazerCount": 3,
+      "primaryLanguage": {
+        "name": "Python",
+        "color": "#3572A5"
+      },
+      "repositoryTopics": {
+        "nodes": []
+      },
+      "updatedAt": "2024-03-06T06:05:16Z"
+    },
+    {
+      "name": "Scholance",
+      "description": null,
+      "url": "https://github.com/TheOtherPC/Scholance",
+      "stargazerCount": 2,
+      "primaryLanguage": {
+        "name": "Python",
+        "color": "#3572A5"
+      },
+      "repositoryTopics": {
+        "nodes": []
+      },
+      "updatedAt": "2022-11-01T20:01:46Z"
+    },
+    {
+      "name": "QuickUp",
+      "description": null,
+      "url": "https://github.com/vihdutta/QuickUp",
+      "stargazerCount": 1,
+      "primaryLanguage": {
+        "name": "Go",
+        "color": "#00ADD8"
+      },
+      "repositoryTopics": {
+        "nodes": []
+      },
+      "updatedAt": "2022-01-30T15:27:17Z"
+    },
+    {
+      "name": "vihdutta",
+      "description": null,
+      "url": "https://github.com/vihdutta/vihdutta",
+      "stargazerCount": 0,
+      "primaryLanguage": null,
+      "repositoryTopics": {
+        "nodes": []
+      },
+      "updatedAt": "2021-05-09T14:53:21Z"
+    }
+  ],
+  "lastUpdated": "2025-05-23T03:34:36.082Z",
+  "source": "github-api"
 }

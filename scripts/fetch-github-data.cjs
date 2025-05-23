@@ -9,12 +9,40 @@ if (!globalThis.fetch) {
   require('isomorphic-fetch');
 }
 
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+// Try to load .env file for local development
+const envPath = path.join(process.cwd(), '.env');
+if (fs.existsSync(envPath)) {
+  console.log('📄 Loading .env file for local development...');
+  const envContent = fs.readFileSync(envPath, 'utf8');
+  const envLines = envContent.split('\n');
+  
+  for (const line of envLines) {
+    const trimmed = line.trim();
+    if (trimmed && !trimmed.startsWith('#')) {
+      const [key, ...valueParts] = trimmed.split('=');
+      if (key && valueParts.length > 0) {
+        const value = valueParts.join('=').replace(/^["']|["']$/g, ''); // Remove quotes
+        if (!process.env[key]) { // Don't override existing env vars
+          process.env[key] = value;
+        }
+      }
+    }
+  }
+}
+
+// Check for token from either GITHUB_TOKEN (CI) or VITE_GITHUB_TOKEN (local .env)
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN || process.env.VITE_GITHUB_TOKEN;
 const GITHUB_USERNAME = 'vihdutta'; // Your GitHub username
 
 if (!GITHUB_TOKEN) {
-  console.error('❌ GITHUB_TOKEN environment variable is required');
-  console.log('Creating fallback data file...');
+  console.error('❌ GitHub token not found');
+  console.log('💡 For local development:');
+  console.log('   1. Create a .env file in the project root');
+  console.log('   2. Add: VITE_GITHUB_TOKEN=your_github_token_here');
+  console.log('   3. Get token from: https://github.com/settings/tokens');
+  console.log('   4. Token only needs "public_repo" read access');
+  console.log('');
+  console.log('🔧 Creating fallback data file...');
   
   // Create fallback data so build doesn't fail
   const fallbackData = {
@@ -35,6 +63,8 @@ if (!GITHUB_TOKEN) {
   console.log(`⚠️  Created fallback data file at ${outputPath}`);
   process.exit(0); // Exit successfully so build continues
 }
+
+console.log(`🔑 Using GitHub token from ${process.env.GITHUB_TOKEN ? 'GITHUB_TOKEN (CI)' : 'VITE_GITHUB_TOKEN (local)'}`);
 
 const GITHUB_GRAPHQL_URL = 'https://api.github.com/graphql';
 
