@@ -82,7 +82,7 @@ jobs:
         env:
           # Set to 'true' when deploying to a custom domain
           # Set to 'false' for GitHub Pages project deployment (vihdutta.github.io/portfolio)
-          CUSTOM_DOMAIN: 'false'
+          CUSTOM_DOMAIN: 'true'
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
