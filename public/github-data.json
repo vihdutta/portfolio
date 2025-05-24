@@ -1,20 +1,6 @@
 {
   "repositories": [
     {
-      "name": "portfolio",
-      "description": null,
-      "url": "https://github.com/vihdutta/portfolio",
-      "stargazerCount": 0,
-      "primaryLanguage": {
-        "name": "TypeScript",
-        "color": "#3178c6"
-      },
-      "repositoryTopics": {
-        "nodes": []
-      },
-      "updatedAt": "2025-05-23T04:10:11Z"
-    },
-    {
       "name": "foodwars",
       "description": "The official repository of foodwars!",
       "url": "https://github.com/vihdutta/foodwars",
@@ -26,7 +12,10 @@
       "repositoryTopics": {
         "nodes": []
       },
-      "updatedAt": "2025-05-22T19:03:52Z"
+      "updatedAt": "2025-05-22T19:03:52Z",
+      "defaultBranchRef": {
+        "name": "main"
+      }
     },
     {
       "name": "gencard",
@@ -40,7 +29,10 @@
       "repositoryTopics": {
         "nodes": []
       },
-      "updatedAt": "2025-04-17T18:23:45Z"
+      "updatedAt": "2025-04-17T18:23:45Z",
+      "defaultBranchRef": {
+        "name": "master"
+      }
     },
     {
       "name": "autosort",
@@ -80,7 +72,10 @@
           }
         ]
       },
-      "updatedAt": "2025-01-27T11:08:06Z"
+      "updatedAt": "2025-01-27T11:08:06Z",
+      "defaultBranchRef": {
+        "name": "master"
+      }
     },
     {
       "name": "Battleship3D",
@@ -130,7 +125,10 @@
           }
         ]
       },
-      "updatedAt": "2024-03-10T04:27:21Z"
+      "updatedAt": "2024-03-10T04:27:21Z",
+      "defaultBranchRef": {
+        "name": "master"
+      }
     },
     {
       "name": "PowerTool",
@@ -144,23 +142,12 @@
       "repositoryTopics": {
         "nodes": []
       },
-      "updatedAt": "2024-03-06T06:05:16Z"
-    },
-    {
-      "name": "QuickUp",
-      "description": null,
-      "url": "https://github.com/vihdutta/QuickUp",
-      "stargazerCount": 1,
-      "primaryLanguage": {
-        "name": "Go",
-        "color": "#00ADD8"
-      },
-      "repositoryTopics": {
-        "nodes": []
-      },
-      "updatedAt": "2022-01-30T15:27:17Z"
+      "updatedAt": "2024-03-06T06:05:16Z",
+      "defaultBranchRef": {
+        "name": "master"
+      }
     }
   ],
-  "lastUpdated": "2025-05-23T04:14:07.498Z",
+  "lastUpdated": "2025-05-24T05:43:31.046Z",
   "source": "github-api"
 }

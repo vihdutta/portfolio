@@ -40,11 +40,11 @@ export const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section - Dark sophisticated background */}
-      <div className="bg-gradient-to-br from-[#29353c] to-[#44576d] relative overflow-hidden">
+      <div className="bg-gradient-to-br from-[#26303a] to-[#465b72] relative overflow-hidden">
         {/* Subtle pattern overlay */}
-        <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 opacity-15">
           <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.3) 1px, transparent 0)`,
+            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.45) 1px, transparent 0)`,
             backgroundSize: '20px 20px'
           }}></div>
         </div>
@@ -162,7 +162,7 @@ export const Home = () => {
                 <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-8">
                   {/* University Logo */}
                   <div className="flex-shrink-0">
-                    <div className="w-20 h-20 rounded-full flex items-center justify-center" style={{ backgroundColor: '#e6e6e6' }}>
+                    <div className="w-20 h-20 rounded-full flex items-center justify-center border-2" style={{ borderColor: '#e6e6e6' }}>
                       <img
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/University_of_Michigan_logo.svg/200px-University_of_Michigan_logo.svg.png"
                         alt="University of Michigan"
@@ -213,8 +213,8 @@ export const Home = () => {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                        className="flex items-center rounded-lg p-3 shadow-sm"
-                        style={{ backgroundColor: '#e6e6e6' }}
+                        className="flex items-center rounded-lg p-3 shadow-sm border-2"
+                        style={{ borderColor: '#e6e6e6' }}
                       >
                         <div className="w-2 h-2 rounded-full mr-3 flex-shrink-0" style={{ backgroundColor: '#44576d' }}></div>
                         <span className="font-medium" style={{ color: '#29353c' }}>{course}</span>
@@ -246,7 +246,7 @@ export const Home = () => {
         </div>
       </div>
 
-      {/* Connect Section */}
+            {/* Connect Section */}
       <div style={{ backgroundColor: '#44576d' }}>
         <div className="container mx-auto px-6 py-16">
           <motion.div
