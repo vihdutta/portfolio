@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 import type { EnhancedProject } from '../types/github';
+import { ProjectPreview } from './ProjectPreview';
+import { useProjectPreviews } from '../hooks/useProjectPreviews';
 
 interface ProjectCardProps {
   project: EnhancedProject;
@@ -18,6 +20,8 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
   } = project;
 
   const topics = repositoryTopics?.nodes?.map(node => node.topic.name) || [];
+  const { getPreviewUrl } = useProjectPreviews();
+  const previewUrl = getPreviewUrl(name);
 
   return (
     <motion.div
@@ -89,6 +93,11 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
           </ul>
         )}
       </div>
+
+      {/* Project Preview - positioned just above tags */}
+      {previewUrl && (
+        <ProjectPreview previewUrl={previewUrl} repositoryName={name} />
+      )}
 
       {topics.length > 0 && (
         <div className="flex flex-wrap gap-2 mt-auto">

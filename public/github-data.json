@@ -1,8 +1,22 @@
 {
   "repositories": [
     {
+      "name": "CollegeLabMatch",
+      "description": "Simplify finding robotics research opportunities at the University of Michigan",
+      "url": "https://github.com/vihdutta/CollegeLabMatch",
+      "stargazerCount": 0,
+      "primaryLanguage": {
+        "name": "Python",
+        "color": "#3572A5"
+      },
+      "repositoryTopics": {
+        "nodes": []
+      },
+      "updatedAt": "2025-06-16T16:24:56Z"
+    },
+    {
       "name": "foodwars",
-      "description": "The official repository of foodwars!",
+      "description": "Multiplayer game with a tasty twist.",
       "url": "https://github.com/vihdutta/foodwars",
       "stargazerCount": 0,
       "primaryLanguage": {
@@ -12,27 +26,7 @@
       "repositoryTopics": {
         "nodes": []
       },
-      "updatedAt": "2025-05-22T19:03:52Z",
-      "defaultBranchRef": {
-        "name": "main"
-      }
-    },
-    {
-      "name": "gencard",
-      "description": "The best way to get context citation cards.",
-      "url": "https://github.com/vihdutta/gencard",
-      "stargazerCount": 1,
-      "primaryLanguage": {
-        "name": "Python",
-        "color": "#3572A5"
-      },
-      "repositoryTopics": {
-        "nodes": []
-      },
-      "updatedAt": "2025-04-17T18:23:45Z",
-      "defaultBranchRef": {
-        "name": "master"
-      }
+      "updatedAt": "2025-06-13T06:34:29Z"
     },
     {
       "name": "autosort",
@@ -72,10 +66,7 @@
           }
         ]
       },
-      "updatedAt": "2025-01-27T11:08:06Z",
-      "defaultBranchRef": {
-        "name": "master"
-      }
+      "updatedAt": "2025-01-27T11:08:06Z"
     },
     {
       "name": "Battleship3D",
@@ -125,29 +116,9 @@
           }
         ]
       },
-      "updatedAt": "2024-03-10T04:27:21Z",
-      "defaultBranchRef": {
-        "name": "master"
-      }
-    },
-    {
-      "name": "PowerTool",
-      "description": "A simple PowerSchool tool with Python.",
-      "url": "https://github.com/vihdutta/PowerTool",
-      "stargazerCount": 3,
-      "primaryLanguage": {
-        "name": "Python",
-        "color": "#3572A5"
-      },
-      "repositoryTopics": {
-        "nodes": []
-      },
-      "updatedAt": "2024-03-06T06:05:16Z",
-      "defaultBranchRef": {
-        "name": "master"
-      }
+      "updatedAt": "2024-03-10T04:27:21Z"
     }
   ],
-  "lastUpdated": "2025-05-24T05:43:31.046Z",
+  "lastUpdated": "2025-06-17T01:29:11.551Z",
   "source": "github-api"
 }
