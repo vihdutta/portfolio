@@ -4,11 +4,6 @@ import { motion } from 'framer-motion';
 export const Header = () => {
   const location = useLocation();
 
-  const handleResumeClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    window.open('/resume.pdf', '_blank');
-  };
-
   return (
     <motion.header
       initial={{ opacity: 0, y: -20 }}
@@ -46,22 +41,6 @@ export const Header = () => {
                 />
               )}
             </Link>
-            
-            <button
-              onClick={handleResumeClick}
-              className="nav-link relative text-gray-600 transition-colors duration-200 cursor-pointer"
-              style={{
-                '--hover-color': '#29353c'
-              } as React.CSSProperties}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = '#29353c';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = '';
-              }}
-            >
-              Resume
-            </button>
           </nav>
         </div>
       </div>

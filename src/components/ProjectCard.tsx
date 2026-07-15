@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import type { EnhancedProject } from '../types/github';
 import { ProjectPreview } from './ProjectPreview';
 import { useProjectPreviews } from '../hooks/useProjectPreviews';
@@ -22,14 +23,26 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
   const topics = repositoryTopics?.nodes?.map(node => node.topic.name) || [];
   const { getPreviewUrl } = useProjectPreviews();
   const previewUrl = getPreviewUrl(name);
+  const navigate = useNavigate();
+  const openProject = () => navigate(`/projects/${encodeURIComponent(name)}`);
 
   return (
     <motion.div
+      role="button"
+      tabIndex={0}
+      aria-label={`View details for ${name}`}
+      onClick={openProject}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openProject();
+        }
+      }}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       whileHover={{ y: -8, transition: { duration: 0.2 } }}
-      className="card p-6 h-full flex flex-col"
+      className="card group p-6 h-full flex flex-col cursor-pointer"
     >
       <div className="flex-1">
         <div className="flex items-start justify-between mb-3">
@@ -37,6 +50,7 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
             href={url}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
             className="text-xl font-semibold text-gray-900 transition-colors duration-200"
             style={{
               '--hover-color': '#29353c'
@@ -116,6 +130,14 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
           )}
         </div>
       )}
+
+      <span
+        className="mt-4 inline-flex items-center text-sm font-medium"
+        style={{ color: '#44576d' }}
+      >
+        Read more
+        <span className="ml-1 transition-transform duration-200 group-hover:translate-x-1">→</span>
+      </span>
     </motion.div>
   );
 }; 

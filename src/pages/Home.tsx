@@ -1,9 +1,35 @@
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { useStaticGitHubRepos } from '../hooks/useStaticGitHubRepos';
 import { ProjectCard, LoadingSpinner, Footer } from '../components';
+import { contributions } from '../data/contributions';
+
+const papers = [
+  {
+    title:
+      'Autonomous Vehicle Collision Avoidance With Racing Parameterized Deep Reinforcement Learning',
+    venue: 'IFAC MECC',
+    author: null,
+    arxivId: '2604.16702',
+    url: 'https://arxiv.org/abs/2604.16702',
+    summary:
+      'A parameterized deep reinforcement learning framework that transfers aggressive racing control into robust, real-time collision avoidance for autonomous vehicles.',
+  },
+  {
+    title:
+      'Physics-Informed Reinforcement Learning of Spatial Density Velocity Potentials for Map-Free Racing',
+    venue: 'Robotics and Autonomous Systems',
+    author: null,
+    arxivId: '2604.09499',
+    url: 'https://arxiv.org/abs/2604.09499',
+    summary:
+      'A physics-informed reinforcement learning approach that learns spatial density and velocity potentials to race at the limits of handling without a pre-built track map.',
+  },
+];
 
 export const Home = () => {
   const { repos, loading, error } = useStaticGitHubRepos();
+  const navigate = useNavigate();
 
   if (loading) {
     return (
@@ -28,7 +54,7 @@ export const Home = () => {
               </h2>
               <p className="text-red-600">{error}</p>
               <p className="text-sm text-red-500 mt-2">
-                Please check your GitHub token configuration.
+                Please try refreshing the page.
               </p>
             </motion.div>
           </div>
@@ -58,7 +84,7 @@ export const Home = () => {
           >
             <div className="mb-8">
               <motion.img
-              src="/vihaan_dutta.jpg"
+              src={`${import.meta.env.BASE_URL}vihaan_dutta.jpg`}
               alt="Vihaan Dutta"
               className="w-36 h-36 rounded-full mx-auto mb-6 object-cover shadow-2xl ring-4 ring-[#aac7d8]/50"
               initial={{ scale: 0.8, opacity: 0 }}
@@ -136,6 +162,193 @@ export const Home = () => {
         </div>
       </div>
 
+      {/* Open Source Contribution Section - Striking dark band */}
+      <div className="bg-gradient-to-br from-[#465b72] to-[#26303a] relative overflow-hidden">
+        {/* Subtle pattern overlay to match the hero */}
+        <div className="absolute inset-0 opacity-15">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.45) 1px, transparent 0)`,
+            backgroundSize: '20px 20px'
+          }}></div>
+        </div>
+
+        <div className="container mx-auto px-6 py-16 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.7 }}
+          >
+            {/* Section Header */}
+            <div className="text-center mb-4">
+              <span className="text-sm font-semibold tracking-widest uppercase text-[#aac7d8]">
+                Open Source
+              </span>
+            </div>
+            <h2 className="text-4xl font-bold text-white text-center mb-3">
+              Open Source Contributions
+            </h2>
+            <p className="text-[#dfebf6]/80 text-center max-w-2xl mx-auto mb-12">
+              Giving back to the tools I use — bug fixes and improvements merged into projects I rely on.
+            </p>
+
+            {/* Contribution capsules — compact cards, built to scale to many */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {contributions.map((c, cIndex) => {
+                const openContribution = () => navigate(`/contributions/${c.id}`);
+                return (
+                  <motion.div
+                    key={c.id}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`View ${c.name} contribution`}
+                    onClick={openContribution}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        openContribution();
+                      }
+                    }}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-60px' }}
+                    transition={{ duration: 0.5, delay: cIndex * 0.1 }}
+                    whileHover={{ y: -8, transition: { duration: 0.2 } }}
+                    className="group flex h-full cursor-pointer flex-col rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all duration-300 hover:border-[#aac7d8]/40 hover:bg-white/10 hover:shadow-2xl"
+                  >
+                    <h3 className="text-2xl font-bold text-white transition-colors duration-200 group-hover:text-[#aac7d8]">
+                      {c.name}
+                    </h3>
+                    <span className="mt-1 text-sm text-[#768a96]">{c.repo}</span>
+
+                    <p className="mt-3 flex-1 text-sm leading-relaxed text-[#dfebf6]/80">
+                      {c.summary}
+                    </p>
+
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {c.stats.map((stat) =>
+                        stat.highlight ? (
+                          <span
+                            key={stat.label}
+                            className="inline-flex items-center gap-1 rounded-full bg-[#aac7d8] px-3 py-1 text-xs font-bold text-[#26303a] shadow-sm ring-2 ring-[#aac7d8]/40"
+                          >
+                            <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                            {stat.value} {stat.label}
+                          </span>
+                        ) : (
+                          <span
+                            key={stat.label}
+                            className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-[#dfebf6]"
+                          >
+                            <span className="font-semibold text-white">{stat.value}</span>{' '}
+                            <span className="text-[#aac7d8]">{stat.label}</span>
+                          </span>
+                        )
+                      )}
+                    </div>
+
+                    <span className="mt-5 inline-flex items-center text-sm font-semibold text-[#aac7d8]">
+                      View contribution
+                      <span className="ml-1 transition-transform duration-200 group-hover:translate-x-1">→</span>
+                    </span>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Research & Publications Section - Light academic style, distinct from the dark bands and white sections */}
+      <div className="bg-[#dfebf6] relative overflow-hidden">
+        {/* Subtle ruled-paper line pattern */}
+        <div className="absolute inset-0 opacity-40">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(68,87,109,0.08) 31px, rgba(68,87,109,0.08) 32px)`
+          }}></div>
+        </div>
+
+        <div className="container mx-auto px-6 py-16 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.7 }}
+          >
+            {/* Section Header — left-aligned with accent bar */}
+            <div className="max-w-4xl mx-auto mb-12">
+              <div className="border-l-4 border-[#44576d] pl-5">
+                <span className="text-sm font-semibold tracking-widest uppercase text-[#44576d]">
+                  Research
+                </span>
+                <h2 className="mt-1 text-4xl font-bold text-[#29353c]">
+                  Publications
+                </h2>
+                <p className="mt-2 max-w-2xl text-[#44576d]">
+                  Peer-reviewed research in reinforcement learning for autonomous racing and vehicle safety.
+                </p>
+              </div>
+            </div>
+
+            <div className="space-y-6 max-w-4xl mx-auto">
+              {papers.map((paper, index) => (
+                <motion.a
+                  key={paper.arxivId}
+                  href={paper.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.15 }}
+                  className="group block rounded-xl border-l-4 border-[#44576d] bg-white p-6 md:p-8 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                >
+                  <div className="flex items-start gap-5">
+                    {/* Paper icon */}
+                    <div className="hidden sm:flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-[#44576d]/10 text-[#44576d]">
+                      <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    </div>
+
+                    <div className="flex-1">
+                      <div className="mb-3 flex flex-wrap items-center gap-3">
+                        {paper.author && (
+                          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#44576d] px-3 py-1 text-xs font-bold text-white shadow-sm">
+                            <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M3 3a1 1 0 011-1h9.382a1 1 0 01.894.553L15 4h3a1 1 0 011 1v7a1 1 0 01-1 1h-4.382a1 1 0 01-.894-.553L12 12H5v6a1 1 0 11-2 0V3z" />
+                            </svg>
+                            {paper.author}
+                          </span>
+                        )}
+                        <span className="rounded-full border border-[#44576d]/30 bg-[#44576d]/5 px-3 py-1 text-xs font-medium text-[#44576d]">
+                          {paper.venue}
+                        </span>
+                      </div>
+
+                      <h3 className="text-xl md:text-2xl font-bold leading-snug text-[#29353c] transition-colors duration-200 group-hover:text-[#44576d]">
+                        {paper.title}
+                      </h3>
+
+                      <p className="mt-3 leading-relaxed text-[#44576d]">
+                        {paper.summary}
+                      </p>
+
+                      <span className="mt-4 inline-flex items-center text-sm font-semibold text-[#44576d]">
+                        Read on arXiv
+                        <span className="ml-1 transition-transform duration-200 group-hover:translate-x-1">→</span>
+                      </span>
+                    </div>
+                  </div>
+                </motion.a>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
       {/* Education Section */}
       <div style={{ backgroundColor: 'white' }}>
         <div className="container mx-auto px-6 py-16">
@@ -160,27 +373,25 @@ export const Home = () => {
             <div className="max-w-4xl mx-auto">
               <div className="bg-white rounded-2xl p-8 shadow-xl" style={{ borderColor: '#44576d', borderWidth: '2px' }}>
                 <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-8">
-                  {/* University Logo */}
+                  {/* University Logo — Michigan Block M */}
                   <div className="flex-shrink-0">
-                    <div className="w-20 h-20 rounded-full flex items-center justify-center border-2" style={{ borderColor: '#e6e6e6' }}>
+                    <div
+                      className="w-20 h-20 rounded-full flex items-center justify-center shadow-md"
+                      style={{ backgroundColor: '#00274C' }}
+                    >
                       <img
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/University_of_Michigan_logo.svg/200px-University_of_Michigan_logo.svg.png"
+                        src={`${import.meta.env.BASE_URL}umich-logo.svg`}
                         alt="University of Michigan"
-                        className="w-16 h-16 object-contain"
+                        className="w-12 h-12 object-contain"
                       />
                     </div>
                   </div>
-                  
+
                   {/* University Info */}
                   <div className="flex-grow">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-2xl font-bold" style={{ color: '#29353c' }}>
-                        University of Michigan
-                      </h3>
-                      <p className="text-sm font-medium text-white rounded-full px-3 py-1" style={{ backgroundColor: '#29353c' }}>
-                        Expected Graduation: April 2027
-                      </p>
-                    </div>
+                    <h3 className="text-2xl font-bold mb-2" style={{ color: '#29353c' }}>
+                      University of Michigan
+                    </h3>
                     <p className="text-lg font-semibold mb-1" style={{ color: '#44576d' }}>
                       Bachelor of Science
                     </p>
@@ -201,12 +412,10 @@ export const Home = () => {
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {[
-                      'Data Structures & Algorithms',
-                      'Introduction to Computer Organization',
-                      'Calculus for the Modern Engineer',
-                      'Discrete Mathematics',
-                      'Computational Linear Algebra',
-                      'Probability and Statistics'
+                      'Data Structures and Algorithms',
+                      'Operating Systems',
+                      'Localization, Mapping, and Navigation (SLAM)',
+                      'Software Engineering'
                     ].map((course, index) => (
                       <motion.div
                         key={course}

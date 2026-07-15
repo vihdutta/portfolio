@@ -1,16 +1,62 @@
 {
-  "example-project": {
+  "CollegeLabMatch": {
     "details": [
-      "Built with modern React and TypeScript",
-      "Implements responsive design patterns",
-      "Uses advanced state management techniques"
-    ]
+      "Matches students to robotics labs by research interest",
+      "Scrapes and indexes public faculty research pages",
+      "Ranks opportunities with a lightweight relevance score"
+    ],
+    "overview": "CollegeLabMatch started from a simple frustration: finding robotics research at a school as large as Michigan means digging through dozens of scattered faculty pages, each formatted differently and rarely kept up to date. The tool pulls that information into one place and turns \"who is even working on what?\" into a short, searchable list.\n\nUnder the hood it builds a profile of each lab from its public pages, then compares that against a student's stated interests to surface the strongest matches first. The goal was never to replace a real conversation with a professor — just to make the first step, figuring out who to email, take minutes instead of an afternoon.",
+    "highlights": [
+      "Aggregates faculty and lab pages into a single normalized dataset",
+      "Keyword and interest-based ranking to surface the most relevant labs",
+      "Clean, filterable results view designed for quick scanning",
+      "Built to be re-runnable so the index stays reasonably fresh"
+    ],
+    "techStack": ["Python", "BeautifulSoup", "pandas", "Flask"]
   },
-  "portfolio-website": {
+  "foodwars": {
     "details": [
-      "Static site with GitHub Pages deployment",
-      "Integrates with GitHub GraphQL API",
-      "Features smooth animations and dark mode"
-    ]
+      "Real-time multiplayer arena built in the browser",
+      "Authoritative server keeps every client in sync",
+      "Food-themed characters, weapons, and maps"
+    ],
+    "overview": "Foodwars is a fast, browser-based multiplayer game where players duke it out as over-caffeinated snacks. It grew out of wanting to understand how real-time games stay fair when everyone has a different ping — so the server is authoritative and the clients mostly render what it tells them.\n\nThe interesting problems were all about the network: reconciling player input against server state, smoothing movement so it doesn't feel laggy, and keeping the whole thing snappy with several players in a room at once. It's equal parts game and excuse to learn how the sausage (or in this case, the sentient hot dog) gets made.",
+    "highlights": [
+      "Authoritative server-side game loop for consistent, cheat-resistant state",
+      "Client-side interpolation so movement stays smooth under latency",
+      "Room-based matchmaking supporting multiple concurrent games",
+      "Custom sprites, weapons, and maps built around the food theme"
+    ],
+    "techStack": ["TypeScript", "Node.js", "Socket.IO", "HTML5 Canvas"]
+  },
+  "autosort": {
+    "details": [
+      "Cross-platform desktop app for bulk file copying",
+      "Simple Qt interface aimed at non-technical users",
+      "33+ stars from the open-source community"
+    ],
+    "overview": "Autosort is a small, focused desktop tool for the unglamorous task of copying and organizing large batches of files without living in the terminal. It wraps a genuinely simple idea in a clean Qt interface so that someone who isn't comfortable with the command line can still move hundreds of files reliably.\n\nIt's the project that taught me most about shipping software other people actually use — handling edge cases like duplicate names and interrupted copies, writing docs, and responding to issues from strangers who found it useful enough to star.",
+    "highlights": [
+      "Intuitive Qt GUI that hides the complexity of bulk file operations",
+      "Handles duplicate names, nested folders, and large batches gracefully",
+      "Distributed as free software with a demo and clear documentation",
+      "Grew an organic user base to 30+ GitHub stars"
+    ],
+    "techStack": ["Python", "PyQt", "Qt"]
+  },
+  "Battleship3D": {
+    "details": [
+      "Classic Battleship reimagined with a 3D twist",
+      "Runs entirely in the terminal",
+      "Turn-based AI opponent"
+    ],
+    "overview": "Battleship3D takes the board game everyone knows and stretches it into a third dimension — all inside the terminal. Instead of a flat grid, ships occupy a stack of layers, which quietly changes how you hunt and how you hide.\n\nBuilding it in Java was a study in clean object modeling: representing the board, ships, and shots as their own well-defined pieces, then wiring up an opponent that plays a reasonable game rather than firing at random. The terminal rendering was its own puzzle — making a 3D space legible with nothing but text.",
+    "highlights": [
+      "3D coordinate system that extends classic Battleship rules across layers",
+      "Readable terminal rendering of a multi-layer board",
+      "Turn-based AI that targets intelligently instead of guessing randomly",
+      "Object-oriented design separating board, fleet, and game logic"
+    ],
+    "techStack": ["Java"]
   }
-} 
+}

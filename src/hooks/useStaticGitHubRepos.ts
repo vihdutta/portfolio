@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react';
 import type { GitHubRepo, EnhancedProject, ProjectMetadata } from '../types/github';
 
+// Prefix a public asset path with Vite's configured base path so fetches work
+// on both the custom domain ('/') and the GitHub Pages project page ('/portfolio/').
+const withBasePath = (asset: string): string =>
+  `${import.meta.env.BASE_URL || '/'}${asset}`.replace('//', '/');
+
 interface GitHubData {
   repositories: GitHubRepo[];
   lastUpdated: string;
@@ -27,8 +32,8 @@ export const useStaticGitHubRepos = (): UseStaticGitHubReposResult => {
         setLoading(true);
         setError(null);
 
-        // Fetch the static JSON file
-        const response = await fetch('/github-data.json');
+        // Fetch the static JSON file (respect the deployment base path)
+        const response = await fetch(withBasePath('github-data.json'));
         
         if (!response.ok) {
           throw new Error(`Failed to load GitHub data: ${response.status} ${response.statusText}`);
@@ -51,10 +56,6 @@ export const useStaticGitHubRepos = (): UseStaticGitHubReposResult => {
 
         setRepos(processedRepos);
         setLastUpdated(data.lastUpdated);
-
-        console.log(`✅ Loaded ${processedRepos.length} repositories from static data`);
-        console.log(`📅 Data last updated: ${new Date(data.lastUpdated).toLocaleString()}`);
-
       } catch (err) {
         console.error('Error loading GitHub data:', err);
         setError(err instanceof Error ? err.message : 'Failed to load project data');
@@ -73,7 +74,7 @@ export const useStaticGitHubRepos = (): UseStaticGitHubReposResult => {
 // Helper function to load project metadata
 const loadProjectMetadata = async (): Promise<Record<string, ProjectMetadata>> => {
   try {
-    const response = await fetch('/projects_metadata.json');
+    const response = await fetch(withBasePath('projects_metadata.json'));
     if (!response.ok) {
       console.warn('Project metadata not found, using empty metadata');
       return {};

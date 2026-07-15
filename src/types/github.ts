@@ -19,6 +19,10 @@ export interface GitHubRepo {
 
 export interface ProjectMetadata {
   details: string[];
+  overview?: string;
+  highlights?: string[];
+  techStack?: string[];
+  liveUrl?: string;
 }
 
 export interface EnhancedProject extends GitHubRepo {
