@@ -48,11 +48,14 @@ export const useStaticGitHubRepos = (): UseStaticGitHubReposResult => {
         // Load project metadata
         const metadata = await loadProjectMetadata();
 
-        // Process repositories to match expected format
-        const processedRepos: EnhancedProject[] = data.repositories.map(repo => ({
-          ...repo,
-          metadata: metadata[repo.name]
-        }));
+        // Process repositories to match expected format, most-starred first
+        // (stable sort, so equally-starred repos keep their original order)
+        const processedRepos: EnhancedProject[] = data.repositories
+          .map(repo => ({
+            ...repo,
+            metadata: metadata[repo.name]
+          }))
+          .sort((a, b) => (b.stargazerCount ?? 0) - (a.stargazerCount ?? 0));
 
         setRepos(processedRepos);
         setLastUpdated(data.lastUpdated);

@@ -287,7 +287,7 @@ export const Home = () => {
                   Publications
                 </h2>
                 <p className="mt-2 max-w-2xl text-[#44576d]">
-                  Peer-reviewed research in reinforcement learning for autonomous racing and vehicle safety.
+                  Peer-reviewed research in robotics reinforcement learning.
                 </p>
               </div>
             </div>
@@ -447,7 +447,7 @@ export const Home = () => {
             className="text-center"
           >
             {/* Section Header */}
-            <div className="relative mb-16">
+            <div className="relative mb-8">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t-2" style={{ borderColor: '#768a96' }}></div>
               </div>
@@ -458,9 +458,6 @@ export const Home = () => {
               </div>
             </div>
 
-            <p className="text-lg mb-8 max-w-2xl mx-auto text-white">
-              Let's build together.
-            </p>
             <div className="flex justify-center flex-wrap gap-4">
               <a
                 href="https://github.com/vihdutta"

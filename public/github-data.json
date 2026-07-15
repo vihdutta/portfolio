@@ -1,6 +1,20 @@
 {
   "repositories": [
     {
+      "name": "foodwars",
+      "description": "Multiplayer game with a tasty twist.",
+      "url": "https://github.com/vihdutta/foodwars",
+      "stargazerCount": 0,
+      "primaryLanguage": {
+        "name": "TypeScript",
+        "color": "#3178c6"
+      },
+      "repositoryTopics": {
+        "nodes": []
+      },
+      "updatedAt": "2025-10-02T14:53:53Z"
+    },
+    {
       "name": "CollegeLabMatch",
       "description": "Simplify finding robotics research opportunities at the University of Michigan",
       "url": "https://github.com/vihdutta/CollegeLabMatch",
@@ -13,20 +27,6 @@
         "nodes": []
       },
       "updatedAt": "2025-06-16T16:24:56Z"
-    },
-    {
-      "name": "foodwars",
-      "description": "Multiplayer game with a tasty twist.",
-      "url": "https://github.com/vihdutta/foodwars",
-      "stargazerCount": 0,
-      "primaryLanguage": {
-        "name": "TypeScript",
-        "color": "#3178c6"
-      },
-      "repositoryTopics": {
-        "nodes": []
-      },
-      "updatedAt": "2025-06-13T06:34:29Z"
     },
     {
       "name": "autosort",
@@ -119,6 +119,6 @@
       "updatedAt": "2024-03-10T04:27:21Z"
     }
   ],
-  "lastUpdated": "2025-06-17T01:29:11.551Z",
+  "lastUpdated": "2026-07-15T05:49:18.088Z",
   "source": "github-api"
 }

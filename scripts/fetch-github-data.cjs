@@ -72,7 +72,7 @@ const REPOS_QUERY = `
   query GetRepositories($username: String!) {
     user(login: $username) {
       repositories(
-        first: 20
+        first: 100
         privacy: PUBLIC
         isFork: false
         orderBy: { field: UPDATED_AT, direction: DESC }
@@ -136,30 +136,35 @@ async function fetchGitHubData() {
     let repositories = data.data.user.repositories.nodes;
     console.log(`✅ Successfully fetched ${repositories.length} repositories`);
 
-    // Load and apply ignored repos filter
+    // Load and apply included repos filter (opt-in: only listed repos are shown)
     const publicDir = path.join(process.cwd(), 'public');
-    const ignoredReposPath = path.join(publicDir, 'ignored_repos.json');
-    
-    if (fs.existsSync(ignoredReposPath)) {
+    const includedReposPath = path.join(publicDir, 'included_repos.json');
+
+    if (fs.existsSync(includedReposPath)) {
       try {
-        const ignoredReposContent = fs.readFileSync(ignoredReposPath, 'utf8');
-        const ignoredRepos = JSON.parse(ignoredReposContent);
-        
-        if (Array.isArray(ignoredRepos) && ignoredRepos.length > 0) {
-          const beforeCount = repositories.length;
-          repositories = repositories.filter(repo => !ignoredRepos.includes(repo.name));
-          const afterCount = repositories.length;
-          const filteredCount = beforeCount - afterCount;
-          
-          if (filteredCount > 0) {
-            console.log(`🚫 Filtered out ${filteredCount} ignored repositories: ${ignoredRepos.filter(name => repositories.some(r => r.name === name) === false).join(', ')}`);
+        const includedReposContent = fs.readFileSync(includedReposPath, 'utf8');
+        const includedRepos = JSON.parse(includedReposContent);
+
+        if (Array.isArray(includedRepos) && includedRepos.length > 0) {
+          const byName = new Map(repositories.map(repo => [repo.name.toLowerCase(), repo]));
+          repositories = includedRepos
+            .map(name => byName.get(name.toLowerCase()))
+            .filter(Boolean);
+
+          const missing = includedRepos.filter(name => !byName.has(name.toLowerCase()));
+          if (missing.length > 0) {
+            console.warn(`⚠️  Included repos not found on GitHub: ${missing.join(', ')}`);
           }
+          console.log(`✅ Keeping ${repositories.length} opted-in repositories (in list order)`);
+        } else {
+          console.warn('⚠️  included_repos.json is empty — no repositories will be shown');
+          repositories = [];
         }
       } catch (err) {
-        console.warn('⚠️  Failed to parse ignored_repos.json:', err.message);
+        console.warn('⚠️  Failed to parse included_repos.json:', err.message);
       }
     } else {
-      console.log('📝 No ignored_repos.json found, including all repositories');
+      console.log('📝 No included_repos.json found, including all repositories');
     }
 
     // Ensure public directory exists
