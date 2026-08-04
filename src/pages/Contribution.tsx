@@ -3,6 +3,22 @@ import { Link, useParams } from 'react-router-dom';
 import { getContribution } from '../data/contributions';
 import { Footer } from '../components';
 
+// Renders `backtick` segments in a paragraph as inline <code>, everything else as plain text.
+const renderWithInlineCode = (text: string) =>
+  text.split(/(`[^`]+`)/g).map((segment, i) =>
+    segment.startsWith('`') && segment.endsWith('`') ? (
+      <code
+        key={i}
+        className="rounded bg-gray-100 px-1.5 py-0.5 font-mono text-[0.9em]"
+        style={{ color: '#29353c' }}
+      >
+        {segment.slice(1, -1)}
+      </code>
+    ) : (
+      segment
+    )
+  );
+
 export const Contribution = () => {
   const { contributionId } = useParams();
   const contribution = getContribution(contributionId ?? '');
@@ -26,7 +42,18 @@ export const Contribution = () => {
     );
   }
 
-  const { name, repo, repoUrl, mergedPrUrl, stats, intro, prs, reflection } = contribution;
+  const {
+    name,
+    repo,
+    repoUrl,
+    mergedPrUrl,
+    stats,
+    intro,
+    prs,
+    sectionLabel = 'What I built',
+    prLinkLabel = 'View PR',
+    ctaLabel = 'View the merged PR',
+  } = contribution;
 
   return (
     <div className="min-h-screen">
@@ -115,13 +142,13 @@ export const Contribution = () => {
             {/* Intro */}
             <div className="space-y-4 text-lg leading-relaxed text-gray-700">
               {intro.map((paragraph, i) => (
-                <p key={i}>{paragraph}</p>
+                <p key={i}>{renderWithInlineCode(paragraph)}</p>
               ))}
             </div>
 
             {/* What I built */}
             <h2 className="mt-12 mb-5 text-2xl font-bold" style={{ color: '#29353c' }}>
-              What I built
+              {sectionLabel}
             </h2>
             <div className="space-y-4">
               {prs.map((pr) => (
@@ -147,27 +174,17 @@ export const Contribution = () => {
                   </h3>
                   <div className="mt-2 space-y-3 leading-relaxed text-gray-700">
                     {pr.body.map((paragraph, i) => (
-                      <p key={i}>{paragraph}</p>
+                      <p key={i}>{renderWithInlineCode(paragraph)}</p>
                     ))}
                   </div>
                   <span
                     className="mt-3 inline-flex items-center text-sm font-semibold"
                     style={{ color: '#44576d' }}
                   >
-                    View PR
+                    {prLinkLabel}
                     <span className="ml-1 transition-transform duration-200 group-hover:translate-x-1">→</span>
                   </span>
                 </a>
-              ))}
-            </div>
-
-            {/* Reflections */}
-            <h2 className="mt-12 mb-5 text-2xl font-bold" style={{ color: '#29353c' }}>
-              Reflections
-            </h2>
-            <div className="space-y-4 leading-relaxed text-gray-700">
-              {reflection.map((paragraph, i) => (
-                <p key={i}>{paragraph}</p>
               ))}
             </div>
 
@@ -180,7 +197,7 @@ export const Contribution = () => {
                 className="inline-flex items-center rounded-lg px-6 py-3 font-medium text-white transition-all duration-200 hover:-translate-y-1 hover:shadow-xl"
                 style={{ backgroundColor: '#29353c' }}
               >
-                View the merged PR
+                {ctaLabel}
                 <span className="ml-1">→</span>
               </a>
               <a

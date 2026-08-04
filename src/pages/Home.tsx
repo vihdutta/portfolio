@@ -189,7 +189,7 @@ export const Home = () => {
               Open Source Contributions
             </h2>
             <p className="text-[#dfebf6]/80 text-center max-w-2xl mx-auto mb-12">
-              Giving back to the tools I use — bug fixes and improvements merged into projects I rely on.
+              Giving back to the tools I use: bug fixes and improvements merged into projects I rely on.
             </p>
 
             {/* Contribution capsules — compact cards, built to scale to many */}

@@ -21,7 +21,10 @@ export interface Contribution {
   stats: ContributionStat[];
   intro: string[];
   prs: ContributionPR[];
-  reflection: string[];
+  /** Overrides for PR-specific copy on the detail page, for contributions that aren't a merged PR (e.g. a filed issue). */
+  sectionLabel?: string;
+  prLinkLabel?: string;
+  ctaLabel?: string;
 }
 
 export const contributions: Contribution[] = [
@@ -34,9 +37,9 @@ export const contributions: Contribution[] = [
     summary:
       'I decided to contribute to ManimCommunity/manim, an animation engine for explanatory math videos.',
     stats: [
+      { value: '2', label: 'Merged PRs', highlight: true },
       { value: '~31K', label: 'GitHub stars' },
       { value: '3', label: 'Pull requests' },
-      { value: 'Merged', label: 'PR #4694', highlight: true },
     ],
     intro: [
       `I decided to contribute to ManimCommunity/manim, an animation engine for explanatory math videos. This framework particularly allows one to write concise Python scripts to generate mathematical animations and is popular amongst researchers and YouTubers. In fact, I had chosen this project because I discovered 3Blue1Brown uses it to create their math videos. Further, choosing this project provides me the sense of "giving back"-- the Manim framework was originally created by 3Blue1Brown too.`,
@@ -63,21 +66,45 @@ export const contributions: Contribution[] = [
         ],
       },
       {
-        tag: 'PR #4703',
+        tag: 'PR #4703 · Merged',
         url: 'https://github.com/ManimCommunity/manim/pull/4703',
         title: 'Regression test for the stroke-width fix',
         body: [
           `This PR was simply for quality control of PR1. I did not initially include a regression test for PR1, so I decided to create another PR with the integration test.`,
+          `The test is built from the original reproduction code attached to the issue my first PR closed, so it fails against the pre-fix code and passes after it. Locking the behavior down in the test suite matters here because the fixed-orientation bug I tackled in PR #4701 stems from the same underlying interaction between compound objects and their text subobjects– without a regression test, a future refactor in that area could quietly reintroduce the scaling bug.`,
         ],
       },
     ],
-    reflection: [
-      `I must say I was very excited to start this project because I've always wanted to contribute to open source since a few years ago. There was a time I was working on a small single player game using Rust. During the development, I discovered that I had a compiler error even though I was quite sure my code was correct. After some digging, I discovered through a Github issue that generating constants at compile time in a particular built-in structure was not yet implemented in the programming language itself! I always thought that open source was interesting– even more so after having a personal motivation to fix a problem in a project I was using. Unfortunately, I was unfamiliar with open source, let alone compile time programming language issues. While I still have to look into programming language specifics to contribute to Rust one day, this project enabled me to become comfortable with how open source works in general.`,
-      `It was daunting to see the documentation page when starting my first PR. However, I discovered it was not nearly as complicated as I thought. Many of the processes were automated/shown with the PR request itself, and the format for a PR request was autofilled when I created it. The code was simple as any other project to download, and testing the bug-producing code didn't cause any issues once I had set up my uv environment and installed all the dependencies. After that, the hard part was finding what Python files were relevant in the sea of folders and files.`,
-      `Fortunately, I was able to use AI to help pinpoint what files may be of interest for me. Once I discovered what files were relevant to the issue at hand, I took a great deal of time to review the contents. It was a mistake to read through all the files the AI mentioned, however. I noted this after discovering there was only one function relevant to the bug at hand. Once I found the function, my review of a large amount of Manim's code led me to quickly see that the current stroke scale function neglected the fact that the different subobjects of the object being stroke scaled could have different strokes– the function incorrectly multiplied the new scaling factor for each subobject based on the parent object's stroke scale. I thought it was fascinating that despite how much preparation it required me to find the issue, the bug and fix were both hardly 10 lines of code.`,
-      `Submitting the PR is where I had the most interaction with the community of maintainers. I discussed briefly in the Discord, and was pleasantly surprised how quickly the maintainers were wishing to help. In fact, just a few hours after I asked how to merge my changes (because the merge requirements were complete), a maintainer said they would take a look– when I checked my PR next, my changes were merged! I was pleasantly surprised with how nice the developers were with helping me figure out what are likely rudimentary questions.`,
-      `Lastly, a large change I had made from my original plan was creating my regression test for the bug after I had submitted both PRs. In hindsight, I should have followed Test-Driven Development, writing the regression test before or alongside the bugfix so the test could fail first (confirming the bug), then pass after my fix (confirming the solution). Instead, I wrote the regression test after submitting both PRs, which forced an additional review cycle and slowed down the acceptance process– a concrete example of how deviating from TDD increases downstream cost, consistent with the risk and scheduling principle that the cost of a change increases the later it is made in the process.`,
+  },
+  {
+    id: 'leetcode-feedback',
+    name: 'LeetCode Feedback',
+    repo: 'LeetCode-Feedback/LeetCode-Feedback',
+    repoUrl: 'https://github.com/LeetCode-Feedback/LeetCode-Feedback',
+    mergedPrUrl: 'https://github.com/LeetCode-Feedback/LeetCode-Feedback/issues/38670',
+    summary:
+      'I reported a test-coverage gap in LeetCode’s "4Sum" problem, where hashmap solutions that track only one index per value pass all official tests but return wrong answers on interleaved-duplicate inputs.',
+    stats: [
+      { value: 'Accepted', label: 'Issue #38670', highlight: true },
+      { value: '100', label: 'LeetCoins Awarded' },
     ],
+    intro: [
+      `LeetCode's "4Sum" problem asks for all unique quadruplets in an array that sum to a target value. A common but flawed approach uses a hashmap that stores only one index per value, then looks up complements. That approach silently breaks when the correct quadruplet is made of four copies of the same value interleaved with other values in the array, so the hashmap overwrites earlier indices for repeated values and the quadruplet is never found.`,
+      `I noticed this while testing a hashmap-based solution against a case I wrote myself: \`nums = [0,-1,1,-1,1,-1,1,-1]\`, \`target = -4\`, which should return \`[[-1,-1,-1,-1]]\`. The buggy solution returned an empty list on my local test, yet was still accepted by LeetCode's official judge, meaning the existing test suite for the problem had no case that exercised this failure mode.`,
+    ],
+    prs: [
+      {
+        tag: 'Issue #38670 · Accepted',
+        url: 'https://github.com/LeetCode-Feedback/LeetCode-Feedback/issues/38670',
+        title: 'Missing test case: interleaved-duplicate quadruplets in 4Sum',
+        body: [
+          `I filed a report against LeetCode's public feedback tracker describing the gap, along with the reproduction case and the incorrect hashmap approach that slips past every existing test. The LeetCode team confirmed the report and used it to strengthen the problem's test suite, then credited my account 100 LeetCoins as thanks.`,
+        ],
+      },
+    ],
+    sectionLabel: 'What I reported',
+    prLinkLabel: 'View the issue',
+    ctaLabel: 'View the accepted issue',
   },
 ];
 
