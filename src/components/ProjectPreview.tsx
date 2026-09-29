@@ -37,7 +37,7 @@ export const ProjectPreview = ({ previewUrl, repositoryName }: ProjectPreviewPro
         duration: 0.3,
         scaleY: { duration: 0.2 }
       }}
-      className="mt-4 mb-4 relative w-full rounded-lg overflow-hidden bg-gray-100 border border-gray-200"
+      className="mt-4 mb-4 relative w-full rounded-lg overflow-hidden bg-[#dfebf6] border border-[#aac7d8]/25"
       style={{ aspectRatio: '800 / 450' }}
     >
       <img
@@ -53,19 +53,19 @@ export const ProjectPreview = ({ previewUrl, repositoryName }: ProjectPreviewPro
       
       {!isLoaded && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="flex items-center space-x-2 text-gray-500 text-sm">
+          <div className="flex items-center space-x-2 text-[#44576d] text-sm">
             <motion.div
-              className="w-2 h-2 bg-gray-400 rounded-full"
+              className="w-2 h-2 bg-[#aac7d8] rounded-full"
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 0.8, repeat: Infinity, delay: 0 }}
             />
             <motion.div
-              className="w-2 h-2 bg-gray-400 rounded-full"
+              className="w-2 h-2 bg-[#aac7d8] rounded-full"
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 0.8, repeat: Infinity, delay: 0.2 }}
             />
             <motion.div
-              className="w-2 h-2 bg-gray-400 rounded-full"
+              className="w-2 h-2 bg-[#aac7d8] rounded-full"
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 0.8, repeat: Infinity, delay: 0.4 }}
             />

@@ -27,7 +27,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version-file: '.nvmrc'
           cache: 'npm'
       
       - name: Install dependencies
@@ -46,7 +46,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version-file: '.nvmrc'
           cache: 'npm'
       
       - name: Install dependencies
@@ -66,19 +66,17 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version-file: '.nvmrc'
           cache: 'npm'
       
       - name: Install dependencies
         run: npm ci
       
-      - name: Fetch GitHub data
-        run: npm run fetch-github-data
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+      - name: Test content loading
+        run: npm run test:content
+
       - name: Build application
-        run: npm run build:no-fetch
+        run: npm run build
         env:
           # Set to 'true' when deploying to a custom domain
           # Set to 'false' for GitHub Pages project deployment (vihdutta.github.io/portfolio)

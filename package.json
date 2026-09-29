@@ -5,33 +5,40 @@
   "type": "module",
   "homepage": "https://vihdutta.github.io",
   "scripts": {
-    "dev": "vite",
-    "dev:preview": "npm run build && npm run preview",
-    "fetch-github-data": "node scripts/fetch-github-data.cjs",
-    "build": "npm run fetch-github-data && tsc -b && vite build",
-    "build:custom-domain": "npm run fetch-github-data && tsc -b && cross-env CUSTOM_DOMAIN=true vite build",
-    "build:no-fetch": "tsc -b && vite build",
+    "dev": "vite --open",
+    "dev:preview": "npm run build && vite preview --open",
+    "build": "npm run content:check && tsc -b && vite build",
+    "build:custom-domain": "cross-env CUSTOM_DOMAIN=true npm run build",
+    "build:no-fetch": "npm run build",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc -b",
     "preview": "vite preview",
-    "deploy": "npm run build && gh-pages -d dist",
-    "predeploy": "npm run build"
+    "content:check": "tsx scripts/check-content.ts",
+    "test:content": "tsx --test scripts/content.test.ts",
+    "check": "npm run lint && npm run test:content && npm run build",
+    "preview:custom-domain": "cross-env CUSTOM_DOMAIN=true vite preview --open"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.7",
     "@types/node": "^22.15.21",
     "autoprefixer": "^10.4.21",
     "framer-motion": "^12.12.1",
-    "gh-pages": "^6.3.0",
     "postcss": "^8.5.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-markdown": "^10.1.0",
     "react-router-dom": "^7.6.0",
+    "remark-gfm": "^4.0.1",
+    "remark-parse": "^11.0.0",
     "tailwindcss": "^4.1.7",
-    "vihdutta.com": "file:"
+    "unified": "^11.0.5",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.27.0",
+    "@types/hast": "^3.0.5",
+    "@types/mdast": "^4.0.4",
     "@types/react": "^19.1.5",
     "@types/react-dom": "^19.1.5",
     "@vitejs/plugin-react": "^4.4.1",
@@ -40,9 +47,12 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.1.0",
-    "isomorphic-fetch": "^3.0.0",
+    "tsx": "^4.23.15",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.32.1",
     "vite": "^6.3.5"
+  },
+  "engines": {
+    "node": ">=20.19.0"
   }
 }

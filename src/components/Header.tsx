@@ -1,49 +1,28 @@
-import { Link, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { site } from '../content/site';
 
-export const Header = () => {
-  const location = useLocation();
-
-  return (
-    <motion.header
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50 transition-colors duration-300"
-      style={{ 
-        '--hover-border-color': '#29353c'
-      } as React.CSSProperties}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.borderBottomColor = '#29353c';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.borderBottomColor = '';
-      }}
-    >
-      <div className="container mx-auto px-6 py-4">
-        <div className="flex justify-center">
-          <nav className="flex items-center space-x-8">
+export const Header = () => (
+  <header className="sticky top-0 z-50 border-b border-[#44576d] bg-[#dfebf6]/95 backdrop-blur-sm">
+    <div className="container mx-auto px-6 py-4">
+      <div className="mx-auto flex max-w-5xl flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <Link
+          to="/"
+          className="shrink-0 text-xl"
+        >
+          {site.name}
+        </Link>
+        <nav aria-label="Main navigation" className="flex flex-wrap items-center gap-x-6 gap-y-3">
+          {Object.entries(site.sections).map(([id, section]) => (
             <Link
-              to="/"
-              className="nav-link relative"
-              style={{
-                color: location.pathname === '/' ? '#29353c' : undefined
-              }}
+              key={id}
+              to={`/#${id}`}
+              className="text-sm"
             >
-              Home
-              {location.pathname === '/' && (
-                <motion.div
-                  layoutId="activeTab"
-                  className="absolute -bottom-1 left-0 right-0 h-0.5"
-                  style={{ backgroundColor: '#29353c' }}
-                  initial={false}
-                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                />
-              )}
+              {id === 'projects' ? 'Projects' : section.title}
             </Link>
-          </nav>
-        </div>
+          ))}
+        </nav>
       </div>
-    </motion.header>
-  );
-}; 
+    </div>
+  </header>
+);

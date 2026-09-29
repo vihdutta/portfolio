@@ -1,258 +1,183 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import { useStaticGitHubRepos } from '../hooks/useStaticGitHubRepos';
-import { ProjectCard, LoadingSpinner, Footer } from '../components';
-import { contributions } from '../data/contributions';
-
-const papers = [
-  {
-    title:
-      'Autonomous Vehicle Collision Avoidance With Racing Parameterized Deep Reinforcement Learning',
-    venue: 'IFAC MECC',
-    author: null,
-    arxivId: '2604.16702',
-    url: 'https://arxiv.org/abs/2604.16702',
-    summary:
-      'A parameterized deep reinforcement learning framework that transfers aggressive racing control into robust, real-time collision avoidance for autonomous vehicles.',
-  },
-  {
-    title:
-      'Physics-Informed Reinforcement Learning of Spatial Density Velocity Potentials for Map-Free Racing',
-    venue: 'Robotics and Autonomous Systems',
-    author: null,
-    arxivId: '2604.09499',
-    url: 'https://arxiv.org/abs/2604.09499',
-    summary:
-      'A physics-informed reinforcement learning approach that learns spatial density and velocity potentials to race at the limits of handling without a pre-built track map.',
-  },
-];
+import { Link } from 'react-router-dom';
+import { ProjectCard, Footer } from '../components';
+import { contributions, projects } from '../content';
+import { publications as papers } from '../content/publications';
+import { site } from '../content/site';
+import { contentUrl } from '../lib/content-url';
 
 export const Home = () => {
-  const { repos, loading, error } = useStaticGitHubRepos();
-  const navigate = useNavigate();
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-white">
-        <LoadingSpinner />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-white">
-        <div className="container mx-auto px-6 py-12">
-          <div className="text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-red-50/90 backdrop-blur-sm border border-red-200 rounded-lg p-6 max-w-md mx-auto shadow-lg"
-            >
-              <h2 className="text-lg font-semibold text-red-800 mb-2">
-                Error Loading Projects
-              </h2>
-              <p className="text-red-600">{error}</p>
-              <p className="text-sm text-red-500 mt-2">
-                Please try refreshing the page.
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const [showAllProjects, setShowAllProjects] = useState(false);
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section - Dark sophisticated background */}
-      <div className="bg-gradient-to-br from-[#26303a] to-[#465b72] relative overflow-hidden">
-        {/* Subtle pattern overlay */}
-        <div className="absolute inset-0 opacity-15">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.45) 1px, transparent 0)`,
-            backgroundSize: '20px 20px'
-          }}></div>
-        </div>
-        
-        <div className="container mx-auto px-6 py-20 relative z-10">
+    <div className="min-h-screen bg-[#dfebf6]">
+      {/* Hero Section */}
+      <div
+        className="relative overflow-hidden"
+        style={{
+          backgroundImage: 'linear-gradient(rgba(68,87,109,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(68,87,109,0.08) 1px, transparent 1px)',
+          backgroundSize: '32px 32px',
+        }}
+      >
+        <div className="container mx-auto px-6 py-10 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.16 }}
             className="text-center"
           >
-            <div className="mb-8">
-              <motion.img
-              src={`${import.meta.env.BASE_URL}vihaan_dutta.jpg`}
-              alt="Vihaan Dutta"
-              className="w-36 h-36 rounded-full mx-auto mb-6 object-cover shadow-2xl ring-4 ring-[#aac7d8]/50"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              />
-            </div>
             <motion.h1 
-              className="text-6xl font-bold text-white mb-4"
+              className="font-sans text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-tight text-[#29353c] mb-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
+              transition={{ duration: 0.16, delay: 0.06 }}
             >
-              Vihaan Dutta
+              {site.name}
             </motion.h1>
             <motion.p 
-              className="text-2xl font-medium text-[#aac7d8] mb-6"
+              className="text-2xl font-medium text-[#44576d]"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              transition={{ duration: 0.16, delay: 0.08 }}
             >
-              Computer Science & Robotics Student
-            </motion.p>
-            <motion.p 
-              className="text-xl text-[#dfebf6] max-w-3xl mx-auto leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-            >
-              I'm a passionate developer and student at the University of Michigan, dedicated to creating 
-              innovative solutions and building exceptional software products. Explore my projects and academic journey below.
+              <span className="block mb-2 text-xl sm:text-2xl">Prev @ Arenova Capital</span>
+              <span className="block text-xl sm:text-2xl">{site.tagline}</span>
+              <span className="block mt-2 text-sm font-normal tracking-wide">{site.subtitle}</span>
             </motion.p>
           </motion.div>
         </div>
       </div>
 
+      <div className="container mx-auto px-6" aria-hidden="true">
+        <div className="section-divider max-w-5xl mx-auto" />
+      </div>
+
       {/* Projects Section */}
-      <div className="bg-white">
-        <div className="container mx-auto px-6 py-16">
+      <div id="projects" className="scroll-mt-48 md:scroll-mt-28">
+        <div className="container mx-auto px-6 py-8">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.16, delay: 0.04 }}
           >
-            {/* Section Header */}
-            <div className="relative mb-16">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t-2" style={{ borderColor: '#768a96' }}></div>
-              </div>
-              <div className="relative flex justify-center">
-                <span className="bg-white px-6 text-3xl font-bold" style={{ color: '#29353c' }}>
-                  Featured Projects
+            <div className="max-w-5xl mx-auto mb-6">
+              <div className="border-l-4 border-[#aac7d8] pl-5">
+                <span className="text-sm font-semibold tracking-widest uppercase text-[#44576d]">
+                  {site.sections.projects.label}
                 </span>
+                <h2 className="mt-1 text-4xl font-bold text-[#29353c]">
+                  {site.sections.projects.title}
+                </h2>
               </div>
             </div>
-            
-            {repos.length === 0 ? (
+
+            {projects.length === 0 ? (
               <div className="text-center py-12">
                 <p style={{ color: '#44576d' }}>
-                  No projects found. Make sure your GitHub repositories are public.
+                  No projects found. Make sure your GitHub projectsitories are public.
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {repos.map((project, index) => (
+              <div id="featured-projects" className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {(showAllProjects ? projects : projects.slice(0, 3)).map((project, index) => (
                   <ProjectCard
-                    key={project.name}
+                    key={project.id}
                     project={project}
                     index={index}
                   />
                 ))}
               </div>
             )}
+            {projects.length > 3 && (
+              <div className="mt-5 flex justify-center">
+                <button
+                  type="button"
+                  aria-expanded={showAllProjects}
+                  aria-controls="featured-projects"
+                  onClick={() => setShowAllProjects((expanded) => !expanded)}
+                  className="inline-flex items-center gap-2 rounded-lg border border-[#aac7d8]/25 px-4 py-2 text-sm font-medium text-[#44576d] hover:bg-[#eaf1f6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#44576d]"
+                >
+                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                  {showAllProjects ? 'Show fewer projects' : `Show more projects (${projects.length - 3})`}
+                </button>
+              </div>
+            )}
           </motion.div>
         </div>
       </div>
 
-      {/* Open Source Contribution Section - Striking dark band */}
-      <div className="bg-gradient-to-br from-[#465b72] to-[#26303a] relative overflow-hidden">
-        {/* Subtle pattern overlay to match the hero */}
-        <div className="absolute inset-0 opacity-15">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.45) 1px, transparent 0)`,
-            backgroundSize: '20px 20px'
-          }}></div>
-        </div>
+      <div className="container mx-auto px-6" aria-hidden="true">
+        <div className="section-divider max-w-5xl mx-auto" />
+      </div>
 
-        <div className="container mx-auto px-6 py-16 relative z-10">
+      {/* Open Source Contributions */}
+      <div id="contributions" className="relative overflow-hidden scroll-mt-48 md:scroll-mt-28">
+        <div className="container mx-auto px-6 py-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.14 }}
           >
-            {/* Section Header */}
-            <div className="text-center mb-4">
-              <span className="text-sm font-semibold tracking-widest uppercase text-[#aac7d8]">
-                Open Source
-              </span>
+            <div className="max-w-5xl mx-auto mb-6">
+              <div className="border-l-4 border-[#aac7d8] pl-5">
+                <span className="text-sm font-semibold tracking-widest uppercase text-[#44576d]">
+                  {site.sections.contributions.label}
+                </span>
+                <h2 className="mt-1 text-4xl font-bold text-[#29353c]">
+                  {site.sections.contributions.title}
+                </h2>
+              </div>
             </div>
-            <h2 className="text-4xl font-bold text-white text-center mb-3">
-              Open Source Contributions
-            </h2>
-            <p className="text-[#dfebf6]/80 text-center max-w-2xl mx-auto mb-12">
-              Giving back to the tools I use: bug fixes and improvements merged into projects I rely on.
-            </p>
 
             {/* Contribution capsules — compact cards, built to scale to many */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
               {contributions.map((c, cIndex) => {
-                const openContribution = () => navigate(`/contributions/${c.id}`);
                 return (
                   <motion.div
                     key={c.id}
-                    role="button"
-                    tabIndex={0}
-                    aria-label={`View ${c.name} contribution`}
-                    onClick={openContribution}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        openContribution();
-                      }
-                    }}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: '-60px' }}
-                    transition={{ duration: 0.5, delay: cIndex * 0.1 }}
-                    whileHover={{ y: -8, transition: { duration: 0.2 } }}
-                    className="group flex h-full cursor-pointer flex-col rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all duration-300 hover:border-[#aac7d8]/40 hover:bg-white/10 hover:shadow-2xl"
+                    transition={{ duration: 0.1, delay: cIndex * 0.02 }}
+                    className="card flex h-full flex-col"
                   >
-                    <h3 className="text-2xl font-bold text-white transition-colors duration-200 group-hover:text-[#aac7d8]">
-                      {c.name}
-                    </h3>
-                    <span className="mt-1 text-sm text-[#768a96]">{c.repo}</span>
+                    <div className="flex items-start justify-between gap-3">
+                      <h3 className="text-2xl font-bold">
+                        <Link to={`/contributions/${c.id}`}>{c.title}</Link>
+                      </h3>
+                      {c.stats.filter((stat) => stat.label === 'GitHub stars').map((stat) => (
+                        <span
+                          key={stat.label}
+                          aria-label={`${stat.value} ${stat.label}`}
+                          className="mt-1 inline-flex shrink-0 items-center gap-1 text-sm font-medium text-[#44576d]"
+                        >
+                          <span aria-hidden="true">★</span>
+                          {stat.value}
+                        </span>
+                      ))}
+                    </div>
+                    <span className="mt-1 mb-4 break-words text-sm text-[#44576d]">{c.repo}</span>
 
-                    <p className="mt-3 flex-1 text-sm leading-relaxed text-[#dfebf6]/80">
-                      {c.summary}
-                    </p>
+                    {c.description && (
+                      <p className="mb-4 text-sm leading-relaxed text-[#29353c]">{c.description}</p>
+                    )}
 
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {c.stats.map((stat) =>
-                        stat.highlight ? (
-                          <span
-                            key={stat.label}
-                            className="inline-flex items-center gap-1 rounded-full bg-[#aac7d8] px-3 py-1 text-xs font-bold text-[#26303a] shadow-sm ring-2 ring-[#aac7d8]/40"
-                          >
-                            <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
+                    {c.stats.some((stat) => stat.highlight) && (
+                      <div className="-mx-4 -mb-4 mt-auto rounded-b-xl border-t border-[#aac7d8]/25 bg-[#eaf1f6] px-4 py-3 md:-mx-5 md:-mb-5 md:px-5">
+                        {c.stats.filter((stat) => stat.highlight).map((stat) => (
+                          <div key={stat.label} className="flex items-center gap-2 text-sm font-semibold text-[#29353c]">
+                            <svg className="h-4 w-4 shrink-0" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                             </svg>
-                            {stat.value} {stat.label}
-                          </span>
-                        ) : (
-                          <span
-                            key={stat.label}
-                            className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-[#dfebf6]"
-                          >
-                            <span className="font-semibold text-white">{stat.value}</span>{' '}
-                            <span className="text-[#aac7d8]">{stat.label}</span>
-                          </span>
-                        )
-                      )}
-                    </div>
-
-                    <span className="mt-5 inline-flex items-center text-sm font-semibold text-[#aac7d8]">
-                      View contribution
-                      <span className="ml-1 transition-transform duration-200 group-hover:translate-x-1">→</span>
-                    </span>
+                            {stat.value} {stat.homeLabel ?? stat.label}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </motion.div>
                 );
               })}
@@ -261,118 +186,103 @@ export const Home = () => {
         </div>
       </div>
 
-      {/* Research & Publications Section - Light academic style, distinct from the dark bands and white sections */}
-      <div className="bg-[#dfebf6] relative overflow-hidden">
-        {/* Subtle ruled-paper line pattern */}
-        <div className="absolute inset-0 opacity-40">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(68,87,109,0.08) 31px, rgba(68,87,109,0.08) 32px)`
-          }}></div>
-        </div>
+      <div className="container mx-auto px-6" aria-hidden="true">
+        <div className="section-divider max-w-5xl mx-auto" />
+      </div>
 
-        <div className="container mx-auto px-6 py-16 relative z-10">
+      {/* Research & Publications */}
+      <div id="publications" className="relative overflow-hidden scroll-mt-48 md:scroll-mt-28">
+        <div className="container mx-auto px-6 py-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.14 }}
           >
             {/* Section Header — left-aligned with accent bar */}
-            <div className="max-w-4xl mx-auto mb-12">
-              <div className="border-l-4 border-[#44576d] pl-5">
+            <div className="max-w-5xl mx-auto mb-6">
+              <div className="border-l-4 border-[#aac7d8] pl-5">
                 <span className="text-sm font-semibold tracking-widest uppercase text-[#44576d]">
-                  Research
+                  {site.sections.publications.label}
                 </span>
                 <h2 className="mt-1 text-4xl font-bold text-[#29353c]">
-                  Publications
+                  {site.sections.publications.title}
                 </h2>
-                <p className="mt-2 max-w-2xl text-[#44576d]">
-                  Peer-reviewed research in robotics reinforcement learning.
-                </p>
               </div>
             </div>
 
-            <div className="space-y-6 max-w-4xl mx-auto">
+            <ul className="max-w-5xl mx-auto divide-y divide-[#aac7d8]/25">
               {papers.map((paper, index) => (
-                <motion.a
+                <motion.li
                   key={paper.arxivId}
-                  href={paper.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.15 }}
-                  className="group block rounded-xl border-l-4 border-[#44576d] bg-white p-6 md:p-8 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                  transition={{ duration: 0.1, delay: index * 0.03 }}
+                  className="py-5 first:pt-0 last:pb-0"
                 >
-                  <div className="flex items-start gap-5">
-                    {/* Paper icon */}
-                    <div className="hidden sm:flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-[#44576d]/10 text-[#44576d]">
-                      <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                    </div>
-
-                    <div className="flex-1">
-                      <div className="mb-3 flex flex-wrap items-center gap-3">
-                        {paper.author && (
-                          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#44576d] px-3 py-1 text-xs font-bold text-white shadow-sm">
-                            <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
-                              <path d="M3 3a1 1 0 011-1h9.382a1 1 0 01.894.553L15 4h3a1 1 0 011 1v7a1 1 0 01-1 1h-4.382a1 1 0 01-.894-.553L12 12H5v6a1 1 0 11-2 0V3z" />
-                            </svg>
-                            {paper.author}
-                          </span>
-                        )}
-                        <span className="rounded-full border border-[#44576d]/30 bg-[#44576d]/5 px-3 py-1 text-xs font-medium text-[#44576d]">
-                          {paper.venue}
+                  <p className="text-base leading-relaxed text-[#44576d]">
+                    {paper.authors.map((author, authorIndex) => (
+                      <span key={author}>
+                        {authorIndex > 0 && ', '}
+                        <span className={author === site.authorName ? 'font-bold text-[#29353c]' : undefined}>
+                          {author}
                         </span>
-                      </div>
-
-                      <h3 className="text-xl md:text-2xl font-bold leading-snug text-[#29353c] transition-colors duration-200 group-hover:text-[#44576d]">
-                        {paper.title}
-                      </h3>
-
-                      <p className="mt-3 leading-relaxed text-[#44576d]">
-                        {paper.summary}
-                      </p>
-
-                      <span className="mt-4 inline-flex items-center text-sm font-semibold text-[#44576d]">
-                        Read on arXiv
-                        <span className="ml-1 transition-transform duration-200 group-hover:translate-x-1">→</span>
+                      </span>
+                    ))}
+                    {'. '}
+                    <a
+                      href={paper.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className=""
+                    >
+                      {paper.title}
+                    </a>
+                    {'. '}
+                    <span className="italic text-[#44576d]">{paper.venue}</span>.
+                  </p>
+                  {paper.author && (
+                    <div className="mt-3">
+                      <span className="rounded-md bg-[#eaf1f6] px-3 py-1 text-xs font-bold text-[#29353c]">
+                        {paper.author}
                       </span>
                     </div>
-                  </div>
-                </motion.a>
+                  )}
+                </motion.li>
               ))}
-            </div>
+            </ul>
           </motion.div>
         </div>
       </div>
 
+      <div className="container mx-auto px-6" aria-hidden="true">
+        <div className="section-divider max-w-5xl mx-auto" />
+      </div>
+
       {/* Education Section */}
-      <div style={{ backgroundColor: 'white' }}>
-        <div className="container mx-auto px-6 py-16">
+      <div id="education" className="scroll-mt-48 md:scroll-mt-28">
+        <div className="container mx-auto px-6 py-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            transition={{ duration: 0.16, delay: 0.06 }}
           >
-            {/* Section Header */}
-            <div className="relative mb-16">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t-2" style={{ borderColor: '#44576d' }}></div>
-              </div>
-              <div className="relative flex justify-center">
-                <span className="px-6 text-3xl font-bold" style={{ backgroundColor: 'white', color: '#29353c' }}>
-                  Education
+            <div className="max-w-5xl mx-auto mb-6">
+              <div className="border-l-4 border-[#aac7d8] pl-5">
+                <span className="text-sm font-semibold tracking-widest uppercase text-[#44576d]">
+                  {site.sections.education.label}
                 </span>
+                <h2 className="mt-1 text-4xl font-bold text-[#29353c]">
+                  {site.sections.education.title}
+                </h2>
               </div>
             </div>
 
             {/* Education Card */}
-            <div className="max-w-4xl mx-auto">
-              <div className="bg-white rounded-2xl p-8 shadow-xl" style={{ borderColor: '#44576d', borderWidth: '2px' }}>
-                <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-8">
+            <div className="max-w-5xl mx-auto">
+              <div className="card text-base font-normal leading-relaxed text-[#29353c]">
+                <div className="flex flex-col md:flex-row items-start md:items-center gap-4 mb-4">
                   {/* University Logo — Michigan Block M */}
                   <div className="flex-shrink-0">
                     <div
@@ -380,8 +290,8 @@ export const Home = () => {
                       style={{ backgroundColor: '#00274C' }}
                     >
                       <img
-                        src={`${import.meta.env.BASE_URL}umich-logo.svg`}
-                        alt="University of Michigan"
+                        src={contentUrl(site.education.logo)}
+                        alt={site.education.school}
                         className="w-12 h-12 object-contain"
                       />
                     </div>
@@ -389,101 +299,42 @@ export const Home = () => {
 
                   {/* University Info */}
                   <div className="flex-grow">
-                    <h3 className="text-2xl font-bold mb-2" style={{ color: '#29353c' }}>
-                      University of Michigan
+                    <h3 className="font-semibold mb-2">
+                      {site.education.school}
                     </h3>
-                    <p className="text-lg font-semibold mb-1" style={{ color: '#44576d' }}>
-                      Bachelor of Science
-                    </p>
-                    <p className="text-base" style={{ color: '#29353c' }}>
-                      <span className="font-medium">Focus:</span> Computer Science & Robotics
-                    </p>
+                    {site.education.degrees.map((degree) => (
+                      <p key={degree} className="mb-1">
+                        {degree}
+                      </p>
+                    ))}
                   </div>
                 </div>
 
                 {/* Coursework */}
                 <div>
-                  <h4 className="text-lg font-semibold mb-4 flex items-center" style={{ color: '#29353c' }}>
-                    <svg className="w-5 h-5 mr-2" style={{ color: '#44576d' }} fill="currentColor" viewBox="0 0 20 20">
+                  <h4 className="font-semibold mb-2 flex items-center">
+                    <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
                     </svg>
-                    Relevant Coursework
+                    {site.education.courseworkLabel}
                   </h4>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {[
-                      'Data Structures and Algorithms',
-                      'Operating Systems',
-                      'Localization, Mapping, and Navigation (SLAM)',
-                      'Software Engineering'
-                    ].map((course, index) => (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {site.education.courses.map((course, index) => (
                       <motion.div
                         key={course}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                        className="flex items-center rounded-lg p-3 shadow-sm border-2"
-                        style={{ borderColor: '#e6e6e6' }}
+                        transition={{ duration: 0.1, delay: 0.08 + index * 0.02 }}
+                        className="card-inset flex items-center"
                       >
-                        <div className="w-2 h-2 rounded-full mr-3 flex-shrink-0" style={{ backgroundColor: '#44576d' }}></div>
-                        <span className="font-medium" style={{ color: '#29353c' }}>{course}</span>
+                        <div className="w-2 h-2 rounded-full mr-3 flex-shrink-0 bg-current"></div>
+                        <span>{course}</span>
                       </motion.div>
                     ))}
                   </div>
                 </div>
               </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-
-            {/* Connect Section */}
-      <div style={{ backgroundColor: '#44576d' }}>
-        <div className="container mx-auto px-6 py-16">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-center"
-          >
-            {/* Section Header */}
-            <div className="relative mb-8">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t-2" style={{ borderColor: '#768a96' }}></div>
-              </div>
-              <div className="relative flex justify-center">
-                <span className="px-6 text-3xl font-bold text-white" style={{ backgroundColor: '#44576d' }}>
-                  Connect with Me
-                </span>
-              </div>
-            </div>
-
-            <div className="flex justify-center flex-wrap gap-4">
-              <a
-                href="https://github.com/vihdutta"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 bg-white rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-                style={{ borderColor: '#768a96', borderWidth: '2px', color: '#29353c' }}
-              >
-                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z" clipRule="evenodd" />
-                </svg>
-                GitHub
-              </a>
-              
-              <a
-                href="https://linkedin.com/in/vihdutta"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 bg-white rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-                style={{ borderColor: '#768a96', borderWidth: '2px', color: '#29353c' }}
-              >
-                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z" clipRule="evenodd" />
-                </svg>
-                LinkedIn
-              </a>
             </div>
           </motion.div>
         </div>

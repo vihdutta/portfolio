@@ -1,161 +1,91 @@
-# Personal Portfolio Website
+# Vihaan's portfolio
 
-A modern, responsive portfolio website built with React, TypeScript, and Tailwind CSS. Features GitHub integration, dark mode, and smooth animations.
+React, TypeScript, Vite, and Tailwind CSS. All editable text lives in `src/content/`; project and contribution write-ups use Markdown. No GitHub token or CMS is needed to edit or build the site.
 
-## Features
+## Edit locally
 
-### 🚀 Core Features
-- **GitHub Integration**: Automatically fetches and displays your public repositories using GitHub GraphQL API
-- **Dark/Light Mode**: Toggle with localStorage persistence and system preference detection
-- **Responsive Design**: Mobile-first approach with clean, modern aesthetics
-- **Smooth Animations**: Powered by Framer Motion for page transitions and interactive elements
+Use Node 22 (the version in `.nvmrc`, also used by CI):
 
-### 🎨 Design
-- **Monochrome Theme**: 
-  - Background: `#111111` (off-black)
-  - Surface: `#fdfcf9` (slightly beige white)
-  - Accent: `#b23b3b` (tame red)
-- **Typography**: Playfair Display for headers, Inter for body text
-- **Components**: Rounded corners, shadows, and polished spacing
-
-### 📱 Pages
-- **Home (/)**: Hero section, featured projects grid, contact section
-- **Resume (/resume)**: PDF viewer/download with fallback contact info
-
-## Setup Instructions
-
-### 1. Clone and Install
 ```bash
-git clone <your-repo-url>
-cd vihdutta.com
+nvm use
 npm install
-```
-
-### 2. Environment Setup
-Create a `.env` file in the root directory:
-```env
-VITE_GITHUB_TOKEN=your_github_personal_access_token_here
-```
-
-**To get a GitHub token:**
-1. Go to GitHub Settings → Developer settings → Personal access tokens → Tokens (classic)
-2. Generate a new token with `public_repo` scope (read-only access to public repositories)
-3. Copy the token to your `.env` file
-
-### 3. Customize Content
-- **Personal Info**: Update `src/components/Header.tsx` and `src/pages/Home.tsx` with your name and contact details
-- **Projects Metadata**: Edit `public/projects_metadata.json` to add custom descriptions for your repositories
-- **Resume**: Place your `resume.pdf` file in the `public/` directory
-- **Analytics**: Update the analytics script in `index.html` with your tracking ID
-
-### 4. Run Development Server
-```bash
 npm run dev
 ```
 
-### 5. Build for Production
+If Node 22 is not installed, run `nvm install` first. If you don't use nvm, install Node 22 using your usual method.
+
+Vite opens the site in your browser. Keep it next to VS Code, edit a content file, and save. Changes appear automatically; saving, building, and committing locally do **not** publish anything. Stop the preview with Ctrl+C.
+
+| What you want to change | File |
+| --- | --- |
+| Name, tagline, degrees, coursework, section labels, footer links, page title | `src/content/site.ts` |
+| Paper titles, author lists, venues, second-author badge, arXiv links | `src/content/publications.ts` |
+| Project card text, order, GitHub link, preview, write-up | `src/content/projects/*.md` |
+| Contribution stats, links, order, write-up | `src/content/contributions/*.md` |
+| Colors, typography, card styles | `src/index.css` |
+
+## Edit a write-up
+
+Each Markdown file starts with a small YAML metadata block between `---` lines. Edit the text below it like a normal document:
+
+```markdown
+## Overview
+
+Explain your work in paragraphs. Use **bold**, *italics*, and `inline code`.
+
+## Key Highlights
+
+- First result
+- Second result
+
+[External reference](https://example.com)
+```
+
+Use `##` for sections. On contribution pages, `###` starts a contribution card; everything until the next heading of the same or higher level belongs to that card. Keep PR and issue links in the card's text. Quotes (`> text`) render as callouts. Tables, fenced code blocks, and images are supported. Raw HTML/JSX is not supported.
+
+The metadata fields are:
+
+- `id`: permanent URL identifier. Keep existing IDs unchanged, including capitalization, to preserve links.
+- `title`: display name; freely editable without changing the URL.
+- `order`: lower numbers appear first. The first three projects appear on the homepage initially; the rest are behind “Show more projects.” Stars no longer reorder projects.
+- `github`: repository URL.
+- Project `details`: short homepage bullet points; `preview`: optional image URL.
+- Contribution `stats`: quote values such as `"2"` and `"40K+"`. `highlight: true` emphasizes a stat; optional `homeLabel` changes just its homepage label.
+- Contribution `cta`: the final button's label and URL.
+
+Project and contribution order initially matches the previous site. There is no automatic repository discovery or GitHub metadata refresh; edit the Markdown files to add or update entries.
+
+## Add a project or contribution
+
+Copy `src/content/templates/project.md` into `src/content/projects/`, or copy the contribution template into `src/content/contributions/`. Give it a unique `id`, set its `order`, and replace the example content. Vite discovers new `.md` files automatically. Templates do not appear on the site.
+
+An existing page stays available at `/projects/<id>` or `/contributions/<id>` even if you rename its Markdown file or display title. Removing the file removes the page.
+
+## Images and links
+
+Put local images in `public/images/`. Refer to them using paths from `public/`, not your computer's filesystem:
+
+```markdown
+![A useful image description](/images/demo.png)
+
+[Another project](/projects/autosort)
+```
+
+Use the same `/images/demo.png` form for `preview` metadata. The renderer adds the deployment prefix automatically, so these work locally, on the custom domain, and under `/portfolio/`. Full `https://` image URLs also work, but need internet access. The site font is loaded from Google Fonts, with a system fallback.
+
+## Check before publishing
+
 ```bash
-npm run build
+npm run check
+npm run dev:preview
 ```
 
-## Deployment to GitHub Pages
+`check` runs lint, content tests, content validation, TypeScript, and the production build. `dev:preview` builds and opens the production site locally. Neither command contacts the GitHub API or publishes. The default production preview uses `/portfolio/`; open the URL Vite prints.
 
-### Automatic Deployment
-```bash
-npm run deploy
-```
+Errors identify the file and invalid field. Validation checks metadata, duplicate IDs, local image paths, and local links. It does not verify that external websites are reachable or that your claims are accurate. Resolve errors in the terminal/browser overlay, save, and retry.
 
-This will:
-1. Build the project
-2. Deploy to GitHub Pages using the `gh-pages` branch
+For a quick content-only check, run `npm run content:check`.
 
-### Manual Setup
-1. Enable GitHub Pages in your repository settings
-2. Set source to "Deploy from a branch" → `gh-pages` branch
-3. Update the `homepage` field in `package.json` with your GitHub Pages URL
-4. Update the `base` field in `vite.config.ts` to match your repository name
+## Publish
 
-## Project Structure
-
-```
-/
-├── public/
-│   ├── projects_metadata.json  # Custom project descriptions
-│   ├── resume.pdf             # Your resume (place here)
-│   └── ...
-├── src/
-│   ├── components/
-│   │   ├── Header.tsx         # Navigation with dark mode toggle
-│   │   ├── ProjectCard.tsx    # GitHub repo display card
-│   │   └── LoadingSpinner.tsx # Loading animation
-│   ├── hooks/
-│   │   ├── useGitHubRepos.ts  # GitHub API integration
-│   │   └── useDarkMode.ts     # Dark mode state management
-│   ├── pages/
-│   │   ├── Home.tsx           # Main portfolio page
-│   │   └── Resume.tsx         # Resume viewer/download
-│   ├── types/
-│   │   └── github.ts          # TypeScript definitions
-│   └── ...
-├── .env.example               # Environment variables template
-├── tailwind.config.js         # Tailwind configuration
-└── vite.config.ts            # Vite configuration
-```
-
-## Customization Guide
-
-### Adding Project Metadata
-Edit `public/projects_metadata.json`:
-```json
-{
-  "your-repo-name": {
-    "details": [
-      "Custom bullet point about this project",
-      "Another detail explaining the tech stack",
-      "What makes this project special"
-    ]
-  }
-}
-```
-
-### Ignoring Repositories
-Edit `public/ignored_repos.json` to hide specific repositories:
-```json
-[
-  "private-repo",
-  "test-repository", 
-  "archived-project",
-  "vihdutta.com"
-]
-```
-
-### Styling Customization
-- **Colors**: Update `tailwind.config.js` for theme colors
-- **Fonts**: Modify the Google Fonts import in `index.html` and font families in `tailwind.config.js`
-- **Components**: Edit component styles in `src/index.css`
-
-### Analytics Setup
-Replace the placeholder in `index.html`:
-```html
-<!-- Replace with your analytics -->
-<script defer data-domain="yourdomain.com" src="https://plausible.io/js/script.js"></script>
-```
-
-## Technologies Used
-
-- **React 19** - UI library
-- **TypeScript** - Type safety
-- **Tailwind CSS** - Styling
-- **Framer Motion** - Animations
-- **React Router** - Client-side routing
-- **Vite** - Build tool
-- **GitHub GraphQL API** - Repository data
-- **GitHub Pages** - Hosting
-
-## License
-
-MIT License - feel free to use this template for your own portfolio!
-
-## Support
-
-If you encounter any issues or have questions, please open an issue in the repository.
+Work on a branch for drafts. Pushing or merging to `main` triggers the existing GitHub Actions deployment; pushing another branch does not publish the site. See [DEPLOYMENT.md](DEPLOYMENT.md) for hosting settings and custom-domain previews.

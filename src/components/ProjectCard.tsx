@@ -1,143 +1,60 @@
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import type { EnhancedProject } from '../types/github';
-import { ProjectPreview } from './ProjectPreview';
-import { useProjectPreviews } from '../hooks/useProjectPreviews';
+import { Link } from 'react-router-dom';
+import { TechnologyBadges } from './TechnologyBadges';
+import type { ProjectContent } from '../lib/content-schema';
 
 interface ProjectCardProps {
-  project: EnhancedProject;
+  project: ProjectContent;
   index: number;
 }
 
 export const ProjectCard = ({ project, index }: ProjectCardProps) => {
-  const {
-    name,
-    description,
-    url,
-    primaryLanguage,
-    stargazerCount,
-    repositoryTopics,
-    metadata,
-  } = project;
-
-  const topics = repositoryTopics?.nodes?.map(node => node.topic.name) || [];
-  const { getPreviewUrl } = useProjectPreviews();
-  const previewUrl = getPreviewUrl(name);
-  const navigate = useNavigate();
-  const openProject = () => navigate(`/projects/${encodeURIComponent(name)}`);
+  const { id, title: name, description, details, github, live, technologies } = project;
 
   return (
-    <motion.div
-      role="button"
-      tabIndex={0}
-      aria-label={`View details for ${name}`}
-      onClick={openProject}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          openProject();
-        }
-      }}
+    <motion.article
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ y: -8, transition: { duration: 0.2 } }}
-      className="card group p-6 h-full flex flex-col cursor-pointer"
+      transition={{ duration: 0.1, delay: index * 0.02 }}
+      className="card h-full flex flex-col"
     >
-      <div className="flex-1">
-        <div className="flex items-start justify-between mb-3">
+      <h3 className="mb-3 text-xl font-semibold">
+        <Link
+          to={`/projects/${encodeURIComponent(id)}`}
+          className=""
+        >
+          {name}
+        </Link>
+      </h3>
+
+      {description && (
+        <p className="text-sm leading-relaxed text-[#29353c]">{description}</p>
+      )}
+      {!description && details.length > 0 && (
+        <ul className="space-y-1 text-sm text-[#29353c]">
+          {details.map((detail, i) => (
+            <li key={i} className="flex items-start">
+              <span className="mr-2" aria-hidden="true">•</span>
+              {detail}
+            </li>
+          ))}
+        </ul>
+      )}
+      <TechnologyBadges technologies={technologies} />
+      <div className="mt-auto flex flex-wrap gap-4 pt-4">
+        {[{ label: 'GitHub', href: github }, ...(live ? [{ label: 'Live', href: live }] : [])].map(({ label, href }) => (
           <a
-            href={url}
+            key={label}
+            href={href}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="text-xl font-semibold text-gray-900 transition-colors duration-200"
-            style={{
-              '--hover-color': '#29353c'
-            } as React.CSSProperties}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = '#29353c';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = '';
-            }}
+            aria-label={`${name} ${label}`}
+            className="text-sm"
           >
-            {name}
+            {label}
           </a>
-          {stargazerCount > 0 && (
-            <span className="flex items-center text-sm text-gray-500">
-              <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  fillRule="evenodd"
-                  d="M10 15.27L16.18 19l-1.64-7.03L20 7.24l-7.19-.61L10 0 7.19 6.63 0 7.24l5.46 4.73L3.82 19z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              {stargazerCount}
-            </span>
-          )}
-        </div>
-
-        {primaryLanguage && (
-          <div className="flex items-center mb-3">
-            <span
-              className="w-3 h-3 rounded-full mr-2"
-              style={{ backgroundColor: primaryLanguage.color }}
-            />
-            <span className="text-sm text-gray-600">
-              {primaryLanguage.name}
-            </span>
-          </div>
-        )}
-
-        {description && (
-          <p className="text-gray-700 mb-4 leading-relaxed">
-            {description}
-          </p>
-        )}
-
-        {metadata?.details && (
-          <ul className="text-sm text-gray-600 mb-4 space-y-1">
-            {metadata.details.map((detail, i) => (
-              <li key={i} className="flex items-start">
-                <span className="mr-2" style={{ color: '#29353c' }}>•</span>
-                {detail}
-              </li>
-            ))}
-          </ul>
-        )}
+        ))}
       </div>
-
-      {/* Project Preview - positioned just above tags */}
-      {previewUrl && (
-        <ProjectPreview previewUrl={previewUrl} repositoryName={name} />
-      )}
-
-      {topics.length > 0 && (
-        <div className="flex flex-wrap gap-2 mt-auto">
-          {topics.slice(0, 6).map((topic) => (
-            <span
-              key={topic}
-              className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded-full"
-            >
-              {topic}
-            </span>
-          ))}
-          {topics.length > 6 && (
-            <span className="px-2 py-1 text-xs text-gray-500">
-              +{topics.length - 6} more
-            </span>
-          )}
-        </div>
-      )}
-
-      <span
-        className="mt-4 inline-flex items-center text-sm font-medium"
-        style={{ color: '#44576d' }}
-      >
-        Read more
-        <span className="ml-1 transition-transform duration-200 group-hover:translate-x-1">→</span>
-      </span>
-    </motion.div>
+    </motion.article>
   );
-}; 
+};
